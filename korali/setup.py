@@ -1,4 +1,4 @@
-from setuptools import setup, Extension
+from distutils.core import setup, Extension
 setup(ext_modules=[
     Extension(
         name="libkorali",
