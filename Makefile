@@ -9,8 +9,9 @@ M = \
 follow.py\
 graph.py\
 kahan.py\
+pyproject.toml\
 remote.py\
-setup.py\
+setup.cfg\
 
 B = \
 bin/bio\
@@ -21,10 +22,7 @@ lbin: $B
 	for i in $B; do cp -- "$$i" "$(PREFIX)/bin" || exit 2; done
 
 lib: $M
-	case '$(USER)' in \
-	    0) '$(PY)' setup.py install ;; \
-	    *) '$(PY)' setup.py install --user ;; \
-	esac
+        '$(PY)' -m pip install .
 
 lmsolve:
 	mkdir -p -- '$(PREFIX)/share' '$(PREFIX)/bin'
