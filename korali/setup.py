@@ -1,7 +1,6 @@
-from pybind11.setup_helpers import Pybind11Extension
-from setuptools import setup
+from setuptools import setup, Extension
 setup(ext_modules=[
-    Pybind11Extension(
+    Extension(
         name="libkorali",
         include_dirs=["source", "."],
         sources=[
