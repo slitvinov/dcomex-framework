@@ -22,7 +22,7 @@ lbin: $B
 	for i in $B; do cp -- "$$i" "$(PREFIX)/bin" || exit 2; done
 
 lib: $M
-        '$(PY)' -m pip install .
+	'$(PY)' -m pip install .
 
 lmsolve:
 	mkdir -p -- '$(PREFIX)/share' '$(PREFIX)/bin'
