@@ -3,6 +3,7 @@ setup(ext_modules=[
     Extension(
         name="libkorali",
         include_dirs=["source", "."],
+        libraries=['gsl'],
         sources=[
             "source/auxiliar/fs.cpp",
             "source/auxiliar/jsonInterface.cpp",
