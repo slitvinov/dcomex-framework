@@ -76,6 +76,9 @@
 #include "solver/sampler/Nested/Nested.hpp"
 #include "solver/sampler/TMCMC/TMCMC.hpp"
 #include "solver/sampler/sampler.hpp"
+#include "solver/SSM/SSA/SSA.hpp"
+#include "solver/SSM/TauLeaping/TauLeaping.hpp"
+#include "solver/SSM/SSM.hpp"
 
 namespace korali
 {
@@ -186,6 +189,8 @@ Module *Module::getModule(knlohmann::json &js, Experiment *e)
   if (iCompare(moduleType, "Sampler/MCMC")) module = new korali::solver::sampler::MCMC();
   if (iCompare(moduleType, "Sampler/HMC")) module = new korali::solver::sampler::HMC();
   if (iCompare(moduleType, "Sampler/TMCMC")) module = new korali::solver::sampler::TMCMC();
+  if (iCompare(moduleType, "SSM/SSA")) module = new korali::solver::ssm::SSA();
+  if (iCompare(moduleType, "SSM/TauLeaping")) module = new korali::solver::ssm::TauLeaping();
 
   // Neural Network modules
   if (iCompare(moduleType, "NeuralNetwork")) module = new korali::NeuralNetwork();
