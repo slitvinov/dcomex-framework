@@ -22,6 +22,17 @@
 #include "distribution/univariate/uniformratio/uniformratio.hpp"
 #include "distribution/univariate/weibull/weibull.hpp"
 #include "experiment/experiment.hpp"
+#include "neuralNetwork/layer/activation/activation.hpp"
+#include "neuralNetwork/layer/convolution/convolution.hpp"
+#include "neuralNetwork/layer/deconvolution/deconvolution.hpp"
+#include "neuralNetwork/layer/pooling/pooling.hpp"
+#include "neuralNetwork/layer/input/input.hpp"
+#include "neuralNetwork/layer/layer.hpp"
+#include "neuralNetwork/layer/linear/linear.hpp"
+#include "neuralNetwork/layer/output/output.hpp"
+#include "neuralNetwork/layer/recurrent/gru/gru.hpp"
+#include "neuralNetwork/layer/recurrent/lstm/lstm.hpp"
+#include "neuralNetwork/neuralNetwork.hpp"
 #include "problem/bayesian/custom/custom.hpp"
 #include "problem/bayesian/reference/reference.hpp"
 #include "problem/design/design.hpp"
@@ -32,12 +43,25 @@
 #include "problem/optimization/optimization.hpp"
 #include "problem/problem.hpp"
 #include "problem/propagation/propagation.hpp"
+#include "problem/reinforcementLearning/continuous/continuous.hpp"
+#include "problem/reinforcementLearning/discrete/discrete.hpp"
 #include "problem/sampling/sampling.hpp"
+#include "problem/supervisedLearning/supervisedLearning.hpp"
+#include "problem/reaction/reaction.hpp"
+#include "solver/agent/continuous/VRACER/VRACER.hpp"
+#include "solver/agent/continuous/continuous.hpp"
+#include "solver/agent/discrete/dVRACER/dVRACER.hpp"
+#include "solver/agent/discrete/discrete.hpp"
 #include "solver/designer/designer.hpp"
 #include "solver/executor/executor.hpp"
 #include "solver/integrator/integrator.hpp"
 #include "solver/integrator/montecarlo/MonteCarlo.hpp"
 #include "solver/integrator/quadrature/Quadrature.hpp"
+#include "solver/deepSupervisor/deepSupervisor.hpp"
+#include "solver/deepSupervisor/optimizers/fAdam/fAdam.hpp"
+#include "solver/deepSupervisor/optimizers/fAdaBelief/fAdaBelief.hpp"
+#include "solver/deepSupervisor/optimizers/fMadGrad/fMadGrad.hpp"
+#include "solver/deepSupervisor/optimizers/fAdaGrad/fAdaGrad.hpp"
 #include "solver/optimizer/AdaBelief/AdaBelief.hpp"
 #include "solver/optimizer/Adam/Adam.hpp"
 #include "solver/optimizer/CMAES/CMAES.hpp"
@@ -132,13 +156,24 @@ Module *Module::getModule(knlohmann::json &js, Experiment *e)
   if (iCompare(moduleType, "Integration")) module = new korali::problem::Integration();
   if (iCompare(moduleType, "Optimization")) module = new korali::problem::Optimization();
   if (iCompare(moduleType, "Propagation")) module = new korali::problem::Propagation();
+  if (iCompare(moduleType, "Reaction")) module = new korali::problem::Reaction();
+  if (iCompare(moduleType, "ReinforcementLearning/Continuous")) module = new korali::problem::reinforcementLearning::Continuous();
+  if (iCompare(moduleType, "ReinforcementLearning/Discrete")) module = new korali::problem::reinforcementLearning::Discrete();
   if (iCompare(moduleType, "Sampling")) module = new korali::problem::Sampling();
+  if (iCompare(moduleType, "SupervisedLearning")) module = new korali::problem::SupervisedLearning();
   
   // Solver modules
   if (iCompare(moduleType, "Designer")) module = new korali::solver::Designer();
   if (iCompare(moduleType, "Executor")) module = new korali::solver::Executor();
   if (iCompare(moduleType, "Integrator/MonteCarlo")) module = new korali::solver::integrator::MonteCarlo();
   if (iCompare(moduleType, "Integrator/Quadrature")) module = new korali::solver::integrator::Quadrature();
+  if (iCompare(moduleType, "DeepSupervisor")) module = new korali::solver::DeepSupervisor();
+  if (iCompare(moduleType, "DeepSupervisor/optimizers/fAdam")) module = new korali::fAdam();
+  if (iCompare(moduleType, "DeepSupervisor/optimizers/fAdaBelief")) module = new korali::fAdaBelief();
+  if (iCompare(moduleType, "DeepSupervisor/optimizers/fMadGrad")) module = new korali::fMadGrad();
+  if (iCompare(moduleType, "DeepSupervisor/optimizers/fAdaGrad")) module = new korali::fAdaGrad();
+  if (iCompare(moduleType, "Agent/Continuous/VRACER")) module = new korali::solver::agent::continuous::VRACER();
+  if (iCompare(moduleType, "Agent/Discrete/dVRACER")) module = new korali::solver::agent::discrete::dVRACER();
   if (iCompare(moduleType, "Optimizer/CMAES")) module = new korali::solver::optimizer::CMAES();
   if (iCompare(moduleType, "Optimizer/DEA")) module = new korali::solver::optimizer::DEA();
   if (iCompare(moduleType, "Optimizer/Rprop")) module = new korali::solver::optimizer::Rprop();
@@ -151,6 +186,18 @@ Module *Module::getModule(knlohmann::json &js, Experiment *e)
   if (iCompare(moduleType, "Sampler/MCMC")) module = new korali::solver::sampler::MCMC();
   if (iCompare(moduleType, "Sampler/HMC")) module = new korali::solver::sampler::HMC();
   if (iCompare(moduleType, "Sampler/TMCMC")) module = new korali::solver::sampler::TMCMC();
+
+  // Neural Network modules
+  if (iCompare(moduleType, "NeuralNetwork")) module = new korali::NeuralNetwork();
+  if (iCompare(moduleType, "Layer/Linear")) module = new korali::neuralNetwork::layer::Linear();
+  if (iCompare(moduleType, "Layer/Convolution")) module = new korali::neuralNetwork::layer::Convolution();
+  if (iCompare(moduleType, "Layer/Deconvolution")) module = new korali::neuralNetwork::layer::Deconvolution();
+  if (iCompare(moduleType, "Layer/Pooling")) module = new korali::neuralNetwork::layer::Pooling();
+  if (iCompare(moduleType, "Layer/Recurrent/GRU")) module = new korali::neuralNetwork::layer::recurrent::GRU();
+  if (iCompare(moduleType, "Layer/Recurrent/LSTM")) module = new korali::neuralNetwork::layer::recurrent::LSTM();
+  if (iCompare(moduleType, "Layer/Input")) module = new korali::neuralNetwork::layer::Input();
+  if (iCompare(moduleType, "Layer/Output")) module = new korali::neuralNetwork::layer::Output();
+  if (iCompare(moduleType, "Layer/Activation")) module = new korali::neuralNetwork::layer::Activation();
 
   if (module == nullptr) KORALI_LOG_ERROR(" + Unrecognized module: %s.\n", moduleType.c_str());
 
