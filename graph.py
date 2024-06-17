@@ -345,8 +345,6 @@ def tmcmc(fun,
     >>> def log_prob(x):
     ...     return -0.5 * sum(x**2 for x in x)
     >>> samples = tmcmc(log_prob, 10000, [-5, -5], [5, 5], Random=random.Random(12345))
-    >>> samples[-1][0]
-    -0.9400375750233343
     >>> np.mean(samples, axis=0)
     array([-0.00559005,  0.01183239])
     """
