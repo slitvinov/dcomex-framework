@@ -343,7 +343,7 @@ def tmcmc(fun,
     >>> import random
     >>> import math
     >>> def log_prob(x):
-    ...     return -0.5 * sum(x**2 for x in x)
+    ...     return -0.5 * math.fsum(x**2 for x in x)
     >>> samples = tmcmc(log_prob, 10000, [-5, -5], [5, 5], Random=random.Random(12345))
     >>> np.mean(samples, axis=0)
     array([-0.00559005,  0.01183239])
@@ -513,7 +513,7 @@ def korali(fun,
     return (samples, evidence) if return_evidence else samples
 
 
-def cmaes(fun, x0, sigma, g_max, trace=False):
+def cmaes(fun, x0, sigma, g_max, trace=False, Random=None):
     """CMA-ES optimization
 
         Parameters
@@ -527,11 +527,24 @@ def cmaes(fun, x0, sigma, g_max, trace=False):
         g_max : int
               maximum generation
         trace : bool
-              return a trace of the algorithm (default: False)
+              return a trace of the algorithm. Default is False.
+        Random : random.Random, optional
+              optional random number generator. Default is None.
 
         Return
         ----------
-        xmin : tuple"""
+        xmin : tuple
+
+
+        Example
+        -------
+        >>> import math
+        >>> def sphere(x):
+        ...     return math.fsum(x**2 for x in x)
+        >>> x = cmaes(sphere, 8 * [1], 1, 100, Random=random.Random(12345))
+        >>> x[0], x[-1]
+        (-8.527414423072702e-05, -0.00015166744415556993)
+"""
 
     def cumulation(c, A, B):
         alpha = 1 - c
@@ -547,6 +560,7 @@ def cmaes(fun, x0, sigma, g_max, trace=False):
         raise ModuleNotFoundError("graph.cmaes needs scipy")
     if np == None:
         raise ModuleNotFoundError("graph.cmaes needs numpy")
+    RANDOM = random if Random is None else Random
     xmean, N = x0[:], len(x0)
     lambd = 4 + int(3 * math.log(N))
     mu = lambd // 2
@@ -563,7 +577,7 @@ def cmaes(fun, x0, sigma, g_max, trace=False):
     Trace = []
     for gen in range(1, g_max + 1):
         sqrtC = np.real(scipy.linalg.sqrtm(C))
-        x0 = [[random.gauss(0, 1) for d in range(N)] for i in range(lambd)]
+        x0 = [[RANDOM.gauss(0, 1) for d in range(N)] for i in range(lambd)]
         x1 = [sqrtC @ e for e in x0]
         xs = [xmean + sigma * e for e in x1]
         ys = [fun(e) for e in xs]
