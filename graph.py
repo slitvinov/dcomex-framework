@@ -304,40 +304,41 @@ def tmcmc(fun,
           return_evidence=False,
           trace=False,
           Random=None):
-    """Generates samples from the target distribution using a transitional
-    Markov chain Monte Carlo(TMCMC) algorithm.
+    """
+    Generates samples from the target distribution using a Transitional
+    Markov Chain Monte Carlo (TMCMC) algorithm.
 
     Parameters
     ----------
     fun : callable
-           log-probability
+        Log-probability function for the target distribution.
     draws : int
-          the number of samples to draw
+        Number of samples to draw.
     lo, hi : tuples
-          the bounds of the initial distribution
-    beta : float
-        The coefficient to scale the proposal distribution. Larger values of
-        beta lead to larger proposal steps and potentially faster convergence,
-        but may also increase the likelihood of rejecting proposals (default
-        is 1)
-    return_evidence : bool
-        If True, return a tuple containing the samples and the
-        evidence (the logarithm of the normalization constant). If
-        False (the default), return only the samples
-    trace : bool
-        If True, return a trace of the algorithm, which is a list of
-        tuples containing the current set of samples and the number of
-        accepted proposals at each iteration. If False (the default),
-        do not return a trace.
+        Lower and upper bounds for the initial distribution.
+    beta : float, optional
+        Scaling coefficient for the proposal distribution. Larger values
+        lead to bigger proposal steps, which can speed up convergence
+        but also increase the rejection rate. Default is 1.
+    return_evidence : bool, optional
+        If True, returns a tuple (samples, log-evidence). If False, returns
+        only the samples. Default is False.
+    trace : bool, optional
+        If True, returns a trace of the algorithm. The trace includes a list
+        of tuples with the current samples and the number of accepted proposals
+        at each iteration. Default is False.
+    Random : random.Random, optional
+        Optional random number generator. Default is None.
 
-    Return
-    ------
-    samples : list or tuple
-           a list of samples, a tuple of (samples, log-evidence), or a trace
+    Returns
+    -------
+    list or tuple
+        If return_evidence is False and trace is False, returns a list of samples.
+        If return_evidence is True, returns a tuple (samples, log-evidence).
+        If trace is True, returns a trace of the algorithm.
 
     Examples
     --------
-
     >>> import numpy as np
     >>> import random
     >>> import math
@@ -348,7 +349,6 @@ def tmcmc(fun,
     True
     >>> np.abs(np.mean(samples, axis=0)) < 0.1
     array([ True,  True])
-
     """
 
     def inside(x):
