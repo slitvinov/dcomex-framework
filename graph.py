@@ -223,7 +223,7 @@ def metropolis(fun, draws, init, scale, log=False):
     sys.stderr.write("graph.metropolis: accept = %g\n" % (accept / draws))
 
 
-def langevin(fun, draws, init, dfun, sigma, log=False):
+def langevin(fun, draws, init, dfun, sigma, log=False, Random=None):
     """Metropolis-adjusted Langevin (MALA) sampler
 
     Parameters
@@ -250,12 +250,14 @@ def langevin(fun, draws, init, dfun, sigma, log=False):
     Examples
     --------
     >>> import math
+    >>> import statistics
+    >>> import random
     >>> def log_gaussian(x, mu=0, sigma=1):
     ...     return -0.5 * ((x[0] - mu) / sigma)**2
     >>> def grad_log_gaussian(x, mu=0, sigma=1):
     ...     return [(mu - x[0]) / sigma**2]
     >>> samples = langevin(log_gaussian, 10000, [0], grad_log_gaussian,
-    ...   1.0, log=True)
+    ...   1.0, log=True, Random=random.Random(12345))
     >>> mean = statistics.fmean(s[0] for s in samples)
     >>> math.isclose(mean, 0, abs_tol=0.05)
     True
@@ -264,16 +266,17 @@ def langevin(fun, draws, init, dfun, sigma, log=False):
     def flin(pp, p, d, dp):
         a = pp * math.exp(d)
         b = p * math.exp(dp)
-        return a > b or a > random.uniform(0, 1) * b
+        return a > b or a > RANDOM.uniform(0, 1) * b
 
     def flog(pp, p, d, dp):
         a = pp + d
         b = p + dp
-        return a > b or a > math.log(random.uniform(0, 1)) + b
+        return a > b or a > math.log(RANDOM.uniform(0, 1)) + b
 
     def sqdiff(a, b):
         return kahan.sum((a - b)**2 for a, b in zip(a, b))
 
+    RANDOM = random if Random is None else Random
     s2 = sigma * sigma
     x = init[:]
     y = tuple(x + s2 / 2 * d for x, d in zip(x, dfun(x)))
@@ -286,7 +289,7 @@ def langevin(fun, draws, init, dfun, sigma, log=False):
         t += 1
         if t == draws:
             break
-        xp = tuple(random.normalvariate(y, sigma) for y in y)
+        xp = tuple(RANDOM.normalvariate(y, sigma) for y in y)
         yp = tuple(xp + s2 / 2 * d for xp, d in zip(xp, dfun(xp)))
         pp = fun(xp)
         if cond(pp, p, sqdiff(xp, y) / (2 * s2), sqdiff(x, yp) / (2 * s2)):
