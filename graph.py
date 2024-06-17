@@ -1,10 +1,13 @@
-import kahan
+import functools
+import itertools
 import math
+import multiprocessing
 import random
 import statistics
 import sys
+
 import follow
-import functools
+import kahan
 
 try:
     import scipy.special
@@ -149,7 +152,7 @@ class Integral:
             self.theta_given_psi(theta, psi) for theta in self.samples)
 
 
-def metropolis(fun, draws, init, scale, log=False):
+def metropolis(fun, draws, init, scale, log=False, Random=None):
     """Metropolis sampler
 
     Parameters
@@ -180,14 +183,13 @@ def metropolis(fun, draws, init, scale, log=False):
 
     >>> import random
     >>> import statistics
-    >>> random.seed(12345)
     >>> def log_normal(x):
     ...     return -0.5 * x[0]**2
 
     Draw 1000 samples from the distribution starting at 0, with
     proposal standard deviation 1:
 
-    >>> samples = list(metropolis(log_normal, 10000, [0], [1], log=True))
+    >>> samples = list(metropolis(log_normal, 10000, [0], [1], log=True, Random=random.Random(12345)))
 
     Check that the mean and standard deviation of the samples are
     close to 0 and 1, respectively:
@@ -200,11 +202,12 @@ def metropolis(fun, draws, init, scale, log=False):
     """
 
     def flin(pp, p):
-        return pp > random.uniform(0, 1) * p
+        return pp > RANDOM.uniform(0, 1) * p
 
     def flog(pp, p):
-        return pp > math.log(random.uniform(0, 1)) + p
+        return pp > math.log(RANDOM.uniform(0, 1)) + p
 
+    RANDOM = random if Random is None else Random
     x = init[:]
     p = fun(x)
     t = 0
@@ -215,7 +218,7 @@ def metropolis(fun, draws, init, scale, log=False):
         t += 1
         if t == draws:
             break
-        xp = tuple(e + random.normalvariate(0, s) for e, s in zip(x, scale))
+        xp = tuple(e + RANDOM.normalvariate(0, s) for e, s in zip(x, scale))
         pp = fun(xp)
         if pp > p or cond(pp, p):
             x, p = xp, pp
@@ -370,7 +373,7 @@ def tmcmc(fun,
     d = len(lo)
     x = [
         tuple(RANDOM.uniform(l, h) for l, h in zip(lo, hi))
-        for i in range(draws)
+        for i in itertools.repeat(None, draws)
     ]
     f = np.fromiter((fun(x) for x in x), dtype=np.dtype("float64"))
     x2 = [[None] * d for i in range(draws)]
@@ -519,7 +522,7 @@ def korali(fun,
     return (samples, evidence) if return_evidence else samples
 
 
-def cmaes(fun, x0, sigma, g_max, trace=False, Random=None):
+def cmaes(fun, x0, sigma, g_max, trace=False, Random=None, workers=None):
     """CMA-ES optimization
 
         Parameters
@@ -551,6 +554,12 @@ def cmaes(fun, x0, sigma, g_max, trace=False, Random=None):
         >>> x[0], x[-1]
         (3.5893172737038767e-06, -2.3582294735849054e-05)
 """
+    def FunSerial(x):
+        return (fun(x) for x in x)
+
+    def FunParall(x):
+        with multiprocessing.Pool(workers) as p:
+            return p.map(fun, x)
 
     def cumulation(c, A, B):
         alpha = 1 - c
@@ -566,6 +575,8 @@ def cmaes(fun, x0, sigma, g_max, trace=False, Random=None):
         raise ModuleNotFoundError("graph.cmaes needs scipy")
     if np == None:
         raise ModuleNotFoundError("graph.cmaes needs numpy")
+
+    Fun = FunSerial if workers == None else FunParall
     RANDOM = random if Random is None else Random
     xmean, N = x0[:], len(x0)
     lambd = 4 + int(3 * math.log(N))
@@ -587,7 +598,7 @@ def cmaes(fun, x0, sigma, g_max, trace=False, Random=None):
               for i in range(lambd)]
         x1 = [sqrtC @ e for e in x0]
         xs = [xmean + sigma * e for e in x1]
-        ys = [fun(e) for e in xs]
+        ys = Fun(xs)
         ys, x0, x1, xs = zip(*sorted(zip(ys, x0, x1, xs)))
         xmean = wsum(xs)
         ps = cumulation(cs, ps, wsum(x0))
