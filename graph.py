@@ -345,10 +345,10 @@ def tmcmc(fun,
     >>> def log_prob(x):
     ...     return -0.5 * sum(x**2 for x in x)
     >>> samples = tmcmc(log_prob, 10000, [-5, -5], [5, 5], Random=random.Random(12345))
-    >>> math.isclose(samples[-1][0], 0.0835, abs_tol=0.01)
-    True
-    >>> np.abs(np.mean(samples, axis=0)) < 0.1
-    array([ True,  True])
+    >>> samples[-1][0]
+    -0.9400375750233343
+    >>> np.mean(samples, axis=0)
+    array([-0.00559005,  0.01183239])
     """
 
     def inside(x):
@@ -361,13 +361,14 @@ def tmcmc(fun,
         raise ModuleNotFoundError("tmcm needs scipy")
     if np == None:
         raise ModuleNotFoundError("tmcm needs numpy")
-    uniform = random.uniform if Random is None else Random.uniform
+
+    RANDOM = random if Random is None else Random
     betasq = beta * beta
     eps = 1e-6
     p = 0
     S = 0
     d = len(lo)
-    x = [tuple(uniform(l, h) for l, h in zip(lo, hi)) for i in range(draws)]
+    x = [tuple(RANDOM.uniform(l, h) for l, h in zip(lo, hi)) for i in range(draws)]
     f = np.fromiter((fun(x) for x in x), dtype=np.dtype("float64"))
     x2 = [[None] * d for i in range(draws)]
     sigma = [[None] * d for i in range(d)]
@@ -402,18 +403,18 @@ def tmcmc(fun,
             for k in range(l, d):
                 sigma[k][l] = sigma[l][k] = betasq * kahan.sum(
                     w * e[k] * e[l] for w, e in zip(weight, x0))
-        ind = random.choices(range(draws),
+        ind = RANDOM.choices(range(draws),
                              cum_weights=list(kahan.cumsum(weight)),
                              k=draws)
         ind.sort()
         sqrtC = np.real(scipy.linalg.sqrtm(sigma))
         accept = 0
         for i, j in enumerate(ind):
-            delta = [random.gauss(0, 1) for k in range(d)]
+            delta = [RANDOM.gauss(0, 1) for k in range(d)]
             xp = tuple(a + b for a, b in zip(x[j], sqrtC @ delta))
             if inside(xp):
                 fp = fun(xp)
-                if fp > f[j] or p * fp > p * f[j] + math.log(uniform(0, 1)):
+                if fp > f[j] or p * fp > p * f[j] + math.log(RANDOM.uniform(0, 1)):
                     x[j] = xp[:]
                     f[j] = fp
                     accept += 1
