@@ -356,9 +356,9 @@ def tmcmc(fun,
         return True
 
     if scipy == None:
-        raise ModuleNotFoundError("tmcm needs scipy")
+        raise ModuleNotFoundError("graph.tmcmc needs scipy")
     if np == None:
-        raise ModuleNotFoundError("tmcm needs numpy")
+        raise ModuleNotFoundError("graph.tmcmc needs numpy")
 
     RANDOM = random if Random is None else Random
     betasq = beta * beta
@@ -544,9 +544,9 @@ def cmaes(fun, x0, sigma, g_max, trace=False):
         ]
 
     if scipy == None:
-        raise ModuleNotFoundError("cmaes needs scipy")
+        raise ModuleNotFoundError("graph.cmaes needs scipy")
     if np == None:
-        raise ModuleNotFoundError("cmaes needs nump")
+        raise ModuleNotFoundError("graph.cmaes needs numpy")
     xmean, N = x0[:], len(x0)
     lambd = 4 + int(3 * math.log(N))
     mu = lambd // 2
