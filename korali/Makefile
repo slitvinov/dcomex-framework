@@ -18,7 +18,8 @@ LDFLAGS_GSL != pkg-config --libs gsl
 include obj.mk
 include py.mk
 
-all: libkorali.so
+libkorali.so: $O
+	$(LINK) -shared $O $(LDFLAGS_GSL) $(LDFLAGS_MPI) $(LDFLAGS) -o $@
 
 .c.o:
 	$(CC) -c -fPIC $(CFLAGS) $(CFLAGS_MPI) $< -o $@
@@ -26,8 +27,6 @@ all: libkorali.so
 .cpp.o:
 	$(MPICXX) -c -fPIC $(CXXFLAGS_STD) -I. -Isource $(CXXFLAGS_EIGEN3) $(CXXFLAGS_GSL) $(CXXFLAGS_MPI) $(CXXFLAGS_MPI4PY) $(CXXFLAGS_PYBIND11) $(CXXFLAGS_PYTHON) $(CXXFLAGS) $< -o $@
 
-libkorali.so: $O
-	$(LINK) -shared $O $(LDFLAGS_GSL) $(LDFLAGS_MPI) $(LDFLAGS) -o $@
 
 clean:
 	rm -f $O libkorali.so
