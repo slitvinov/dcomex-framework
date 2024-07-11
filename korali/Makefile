@@ -1,6 +1,8 @@
 .POSIX:
 .SUFFIXES:
-.SUFFIXES: .c .cpp .o
+.SUFFIXES: .c
+.SUFFIXES: .cpp
+.SUFFIXES: .o
 
 PY = python3
 MPICXX = mpicxx
