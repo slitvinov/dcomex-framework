@@ -18,10 +18,11 @@ par = (
     ("k_on", "fix", 1.1574E-8, 1.1574E-2),
     ("kd", "fix", 2.9981e+04, 9.2966e+04),
     ("location", "fix", 25, 30),
+    ("totalTimeNoImmuno", "fix", 16, 20),
 )
 
 random.seed(12345)
-n = 10
+n = 640
 for i in range(n):
     dir = "%08d" % i
     os.makedirs(dir, exist_ok=True)
