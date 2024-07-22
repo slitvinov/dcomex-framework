@@ -1,0 +1,23 @@
+<MSolve4Korali version="1.0">
+	<Mesh>
+		<MeshFile>RealisticMeshWithTetElements.mphtxt</MeshFile>
+		<InitialConditionsFile>t_ICs_realisticMesh_AdvancedModel.csv</InitialConditionsFile>
+	</Mesh>
+	<Physics type="TumorGrowthFull" isCSparse="false" />
+	<Parameters>
+        <miTumor>22.44</miTumor>
+        <k_th_tumor>7.5231E-11</k_th_tumor>
+        <pv>4</pv>
+        <Sv>7E3</Sv>
+        <k1>3.989E-6</k1>
+        <Lp>3.5714E-7</Lp>
+        <sf>0.13427</sf>
+        <Per>2.69E-8</Per>
+        <K_T>1.2731E-5</K_T>
+        <k_on>7.9514E-5</k_on>
+        <kd>36029</kd>
+        <location>14.01</location>
+        <totalTimeNoImmuno>16</totalTimeNoImmuno>
+		<includeImmuno/>
+	</Parameters>
+</MSolve4Korali>
