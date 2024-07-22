@@ -22,7 +22,7 @@ par = (
 )
 
 random.seed(12345)
-n = 640
+n = 1024
 for i in range(n):
     dir = "%08d" % i
     os.makedirs(dir, exist_ok=True)
