@@ -76,13 +76,6 @@ Examples:
    esac
 done
 
-case $# in
-    0|1|2|3|4)
-	printf >&2 'bio: error: too few arguments\n'
-	exit 2
-	;;
-    *) k1=$1; shift; mu=$1; shift; sv=$1; shift;;
-esac
 
 case $Surrogate in
     1) awk '
