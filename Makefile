@@ -50,7 +50,7 @@ lmsolve:
 	msolve/MGroup.Solvers.dll \
 	msolve/Triangle.dll \
 	msolve/RealisticMeshWithTetElements.mphtxt \
-	msolve/RealisticMeshWithTetElements_t_nodes_initialCs.csv \
+	msolve/t_ICs_realisticMesh_AdvancedModel.csv \
 	msolve/RealisticMeshWithTetElements_TumorCoordinates.csv \
 	'$(PREFIX)/share'
 
@@ -60,7 +60,7 @@ lkorali:
 .sh:
 	sed \
 	-e 's,%mph%,"$(PREFIX)"/share/RealisticMeshWithTetElements.mphtxt,g' \
-	-e 's,%csv%,"$(PREFIX)"/share/RealisticMeshWithTetElements_t_nodes_initialCs.csv,g' \
+	-e 's,%csv%,"$(PREFIX)"/share/t_ICs_realisticMesh_AdvancedModel.csv,g' \
 	-e 's,%tumor%,"$(PREFIX)"/share/RealisticMeshWithTetElements_TumorCoordinates.csv,g' \
 	-e 's,%dll%,"$(PREFIX)"/share/MGroup.MSolve4Korali.dll,g' \
 	$< > $@

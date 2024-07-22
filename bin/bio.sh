@@ -5,7 +5,7 @@
 : ${tumor=%tumor%}
 : ${dll=%dll%}
 : ${dotnet=dotnet}
-: ${isCSparse=true}
+: ${isCSparse=false}
 
 
 Verbose=0 Config=0 Surrogate=0
@@ -53,7 +53,7 @@ Environment Variables (default):
   mph                  Path to the mesh of the simulated domain, in .mph format (%mph%)
   csv                  Path to the CSV with initial conditions (%csv%)
   tumor                Path to the CSV with initial tumor coordinates (%tumor%)
-  isCSparse            Use sparse solver (true)
+  isCSparse            Use sparse solver (false)
   dotnet               dotnet command (dotnet)
 
 Returns:
@@ -144,7 +144,7 @@ case $Surrogate in
     </TumorCoordinatesFile>
   </Mesh>
   <Physics
-      type="TumorGrowth"
+      type="TumorGrowthFull"
       isCSparse="$isCSparse">
     <Timesteps>
 `awk 'BEGIN {
@@ -157,10 +157,19 @@ for (i = 1; i < ARGC - 1; i += 2)
     <TumorVolume/>
   </Output>
   <Parameters>
-    <k1>$k1</k1>
-    <mu>$mu</mu>
-    <svHost>7000</svHost>
-    <svTumor>$sv</svTumor>
+    <miTumor>22.44</miTumor>
+    <k_th_tumor>7.5231E-11</k_th_tumor>
+    <pv>4</pv>
+    <Sv>7E3</Sv>
+    <k1>3.989E-6</k1>
+    <Lp>3.5714E-7</Lp>
+    <sf>0.13427</sf>
+    <Per>2.69E-8</Per>
+    <K_T>1.2731E-5</K_T>
+    <k_on>7.9514E-5</k_on>
+    <kd>36029</kd>
+    <location>14.01</location>
+    <totalTimeNoImmuno>16</totalTimeNoImmuno>
   </Parameters>
 </MSolve4Korali>
 !
