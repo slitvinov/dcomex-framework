@@ -2,7 +2,6 @@
 
 : ${mph=%mph%}
 : ${csv=%csv%}
-: ${tumor=%tumor%}
 : ${dll=%dll%}
 : ${dotnet=dotnet}
 : ${isCSparse=false}
@@ -52,7 +51,6 @@ Options:
 Environment Variables (default):
   mph                  Path to the mesh of the simulated domain, in .mph format (%mph%)
   csv                  Path to the CSV with initial conditions (%csv%)
-  tumor                Path to the CSV with initial tumor coordinates (%tumor%)
   isCSparse            Use sparse solver (false)
   dotnet               dotnet command (dotnet)
 

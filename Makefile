@@ -61,7 +61,6 @@ lkorali:
 	sed \
 	-e 's,%mph%,"$(PREFIX)"/share/RealisticMeshWithTetElements.mphtxt,g' \
 	-e 's,%csv%,"$(PREFIX)"/share/t_ICs_realisticMesh_AdvancedModel.csv,g' \
-	-e 's,%tumor%,"$(PREFIX)"/share/RealisticMeshWithTetElements_TumorCoordinates.csv,g' \
 	-e 's,%dll%,"$(PREFIX)"/share/MGroup.MSolve4Korali.dll,g' \
 	$< > $@
 	chmod a+x $@
