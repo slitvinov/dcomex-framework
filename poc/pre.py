@@ -17,10 +17,9 @@ par = (
     ("K_T", "fix", 1.2731E-6, 1.2731E-4),
     ("k_on", "fix", 1.1574E-8, 1.1574E-2),
     ("kd", "fix", 2.9981e+04, 9.2966e+04),
-    ("location", "fix", 25, 30),
-    ("totalTimeNoImmuno", "fix", 16, 20),
+    ("location", "fix", 10, 14),
+    ("totalTimeNoImmuno", "fix", 25, 25),
 )
-
 random.seed(12345)
 n = 1024
 for i in range(n):
