@@ -110,7 +110,6 @@ case $Surrogate in
 	   exit 2
        fi
        config=MSolveInput.xml
-       log=MSolveOutput.log
        output=MSolveOutput-0.xml
        mkdir -p "$r"
        cd -- "$r"
@@ -159,7 +158,7 @@ case $Surrogate in
        case $Config in
 	   0) case $Verbose in
 		  0) "$dotnet" "$dll" 2>/dev/null 1>/dev/null "$config" 0 ;;
-		  1) "$dotnet" "$dll" "$config" 0 | tee 1>&2 "$log" ;;
+		  1) "$dotnet" "$dll" "$config" 0 1>stdout 2>stderr ;;
 	      esac
 	      rc=$?
 	      case $rc in
@@ -179,7 +178,7 @@ case $Surrogate in
 	      ;;
        esac
        case $Verbose in
-	   0) # rm -f "$config" "$output"
+	   0) cat stdout stderr
 	      ;;
        esac
        exit $rc
