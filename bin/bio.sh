@@ -178,7 +178,7 @@ case $Surrogate in
 	      ;;
        esac
        case $Verbose in
-	   0) cat stdout stderr
+	   1) cat stdout stderr
 	      ;;
        esac
        exit $rc
