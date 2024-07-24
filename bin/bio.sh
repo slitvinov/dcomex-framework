@@ -156,10 +156,10 @@ case $Surrogate in
 	      ;;
        esac
        case $Config in
-	   0) case $Verbose in
-		  0) "$dotnet" "$dll" 2>/dev/null 1>/dev/null "$config" 0 ;;
-		  1) "$dotnet" "$dll" "$config" 0 1>stdout 2>stderr ;;
-	      esac
+	   case $Verbose in
+	       1) set -x
+	   esac
+	   0) "$dotnet" "$dll" 1>stdout 2>stderr "$config" 0
 	      rc=$?
 	      case $rc in
 		  0) if ! test -f "$output"
