@@ -35,6 +35,7 @@ for i in range(n):
     <InitialConditionsFile>%s</InitialConditionsFile>
   </Mesh>
   <Physics type="TumorGrowthFull" isCSparse="false" />
+  <Output><TumorVolume/></Output>
   <Parameters>
 """ % (os.path.join(data_dir, mph), os.path.join(data_dir, csv)))
         for name, type, a, b, *rest in par:
