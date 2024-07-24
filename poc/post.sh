@@ -9,8 +9,7 @@ do if test -f ${d}status
 	case $r in
 	    0) ;;
 	    *) n=$((n+1))
-	       zip -qr9 "$zip" ${d}MSolveInput.xml
-	       zip -qr9 "$zip" ${d}stderr ;;
+	       zip -qr9 "$zip" ${d}MSolveInput.xml ${d}stderr ${d}status ;;
 	esac
    fi
 done
