@@ -13,6 +13,11 @@ function get() {
 }
 
 BEGIN {
+    if (ARGC != 3) {
+	print "ode2vtk: error: needs two arguments" | "cat >&2"
+	exit(1)
+    }
+
     RS = "\r\n"
     ode2vtk["3 vtx"] = 1 # VTK_VERTEX
     ode2vtk["3 edg"] = 3 # VTK_LINE
@@ -36,7 +41,7 @@ BEGIN {
     get() # version
     get(); sdim = $1 # sdim
     if (sdim != 3) {
-	printf "ode2vtk: only sdim = 3 is supported, given '%d'\n", sdim | "cat >&2"
+	printf "ode2vtk: error: only sdim = 3 is supported, given '%d'\n", sdim | "cat >&2"
 	exit(1)
     }
     get(); nv = $1
