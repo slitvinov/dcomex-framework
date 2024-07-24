@@ -159,7 +159,7 @@ case $Surrogate in
        case $Config in
 	   0) case $Verbose in
 		  0) "$dotnet" "$dll" 2>/dev/null 1>/dev/null "$config" 0 ;;
-		  1) "$dotnet" "$dll" "$config" x | tee 1>&2 "$log" ;;
+		  1) "$dotnet" "$dll" "$config" 0 | tee 1>&2 "$log" ;;
 	      esac
 	      rc=$?
 	      case $rc in
