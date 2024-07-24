@@ -5,7 +5,6 @@ PY = python3
 PREFIX = /usr
 USER = 0
 ARCH = x64
-D = https://download.visualstudio.microsoft.com/download/pr/01292c7c-a1ec-4957-90fc-3f6a2a1e5edc/025e84c4d9bd4aeb003d4f07b42e9159/dotnet-sdk-6.0.418-linux-$(ARCH).tar.gz
 
 M = \
 follow.py\
@@ -29,9 +28,15 @@ lib: $M
 	'$(PY)' -m pip install .
 
 ldotnet:
-	wget -q '$D' && \
 	mkdir -p -- '$(PREFIX)/bin' && \
-	tar zxf dotnet-sdk-6.0.418-linux-x64.tar.gz -C '$(PREFIX)/bin'
+	case '$(ARCH)' in \
+	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/e94bb674-1fb1-4966-b2f0-bc9055ea33fc/428b37dee8ffb641fd1e45b401b2994c/dotnet-sdk-6.0.424-linux-x64.tar.gz && \
+		 tar zxf dotnet-sdk-6.0.424-linux-x64.tar.gz -C '$(PREFIX)/bin' ;; \
+	    arm64) wget -q https://download.visualstudio.microsoft.com/download/pr/5f4b8e71-b03a-45cb-9a81-3cfcb51ef346/eb9509f0a061be1106689c1fbf5d5169/dotnet-sdk-6.0.424-linux-arm64.tar.gz && \
+		   tar zxf dotnet-sdk-6.0.424-linux-arm64.tar.gz -C '$(PREFIX)/bin' ;; \
+	    *) printf "error: unknown arch '%s'\n" '$(ARCH)'; \
+	       exit 1 ;; \
+	esac
 
 lmsolve:
 	mkdir -p -- '$(PREFIX)/share'
