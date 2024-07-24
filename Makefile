@@ -4,7 +4,8 @@
 PY = python3
 PREFIX = /usr
 USER = 0
-D = https://download.visualstudio.microsoft.com/download/pr/01292c7c-a1ec-4957-90fc-3f6a2a1e5edc/025e84c4d9bd4aeb003d4f07b42e9159/dotnet-sdk-6.0.418-linux-x64.tar.gz
+ARCH = x64
+D = https://download.visualstudio.microsoft.com/download/pr/01292c7c-a1ec-4957-90fc-3f6a2a1e5edc/025e84c4d9bd4aeb003d4f07b42e9159/dotnet-sdk-6.0.418-linux-$(ARCH).tar.gz
 
 M = \
 follow.py\
