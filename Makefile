@@ -28,7 +28,7 @@ lib: $M
 	'$(PY)' -m pip install .
 
 ldotnet:
-	mkdir -p -- '$(PREFIX)/bin' && \
+	mkdir -p -- '$(PREFIX)/bin'
 	case '$(ARCH)' in \
 	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/e94bb674-1fb1-4966-b2f0-bc9055ea33fc/428b37dee8ffb641fd1e45b401b2994c/dotnet-sdk-6.0.424-linux-x64.tar.gz && \
 		 tar zxf dotnet-sdk-6.0.424-linux-x64.tar.gz -C '$(PREFIX)/bin' ;; \
