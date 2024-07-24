@@ -111,7 +111,7 @@ case $Surrogate in
        fi
        config=MSolveInput.xml
        log=MSolveOutput.log
-       output=MSolveOutput-x.xml
+       output=MSolveOutput-0.xml
        mkdir -p "$r"
        cd -- "$r"
        # trap 'rm -f "$config" "$log" "$output"; exit 2' 1 2 3 6 14 15
@@ -167,7 +167,7 @@ for (i = 1; i < ARGC - 1; i += 2)
        esac
        case $Config in
 	   0) case $Verbose in
-		  0) "$dotnet" "$dll" 2>/dev/null 1>/dev/null "$config" x ;;
+		  0) "$dotnet" "$dll" 2>/dev/null 1>/dev/null "$config" 0 ;;
 		  1) "$dotnet" "$dll" "$config" x | tee 1>&2 "$log" ;;
 	      esac
 	      rc=$?
