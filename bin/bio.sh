@@ -125,9 +125,6 @@ case $Surrogate in
     <InitialConditionsFile>
       $csv
     </InitialConditionsFile>
-    <TumorCoordinatesFile>
-      $tumor
-    </TumorCoordinatesFile>
   </Mesh>
   <Physics
       type="TumorGrowthFull"
