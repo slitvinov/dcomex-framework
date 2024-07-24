@@ -99,11 +99,6 @@ case $Surrogate in
 	    exit 2
        fi
 
-       if ! test -f "$tumor"
-       then printf >&2 "bio: error: tumor coordinates file '%s' is not found\n" "$tumor"
-	    exit 2
-       fi
-
        if ! test -f "$dll"
        then printf >&2 "bio: error: DLL file '%s' is not found\n" "$dll"
 	    exit 2
