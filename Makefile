@@ -16,6 +16,8 @@ setup.cfg\
 
 B = \
 bin/bio\
+bin/ode2vtk\
+bin/time2volume\
 
 all: lbin lib
 lbin: $B
