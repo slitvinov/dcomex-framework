@@ -132,12 +132,6 @@ case $Surrogate in
   <Physics
       type="TumorGrowthFull"
       isCSparse="$isCSparse">
-    <Timesteps>
-`awk 'BEGIN {
-for (i = 1; i < ARGC - 1; i += 2)
-  printf "      <Timestepgroup steps=\\"%s\\" stepSizeInSeconds=\\"%s\\"/>\n", ARGV[i], ARGV[i + 1]
-}' "$@"`
-    </Timesteps>
   </Physics>
   <Output>
     <TumorVolume/>
