@@ -1,6 +1,11 @@
-import xml.etree.ElementTree as ET
-import os
 import math
+import os
+import re
+import tarfile
+import xml.etree.ElementTree as ET
+
+KEYS = set(("miTumor", "k_th_tumor", "pv", "Sv", "k1", "Lp", "sf", "Per",
+            "K_T", "k_on", "kd", "location", "totalTimeNoImmuno"))
 
 
 def fix_time(time):
@@ -29,3 +34,50 @@ def read(path):
         *[[float(t.get("time")), float(t.text)]
           for t in root.findall("./TumorVolumes/TumorVolume")])
     return params, fix_time(time), volume
+
+
+def read11(path):
+    with tarfile.open(path, 'r') as tar:
+        for member in tar.getmembers():
+            if re.match("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/status$",
+                        member.name):
+                dirname = re.sub("/status$", "", member.name)
+                content = tar.extractfile(
+                    dirname +
+                    "/prescribedTimeSteppingList.txt").read().decode('utf-8')
+                dt = []
+                nt = []
+                for line in content.split("\n"):
+                    if line:
+                        nt0, dt0 = line.split(",")
+                        nt.append(int(nt0))
+                        dt.append(float(dt0))
+
+                root = ET.parse(tar.extractfile(dirname + "/MSolveInput.xml"))
+                params = {
+                    key.tag: float(key.text)
+                    for key in root.find('./Parameters') if key.tag in KEYS
+                }
+                content = tar.extractfile(dirname +
+                                          "/status").read().decode('utf-8')
+                status = int(content)
+                content = tar.extractfile(
+                    dirname +
+                    "/tumorVolume_AnalysisNo_0.txt").read().decode('utf-8')
+                volume = []
+                time = []
+                j = 0
+                t = 0
+                cnt = 0
+                for v in content.split():
+                    if v == "0.000000E+000":
+                        break
+                    volume.append(float(v))
+                    t += dt[j]
+                    if cnt == nt[j] - 1:
+                        j += 1
+                        cnt = 0
+                    else:
+                        cnt += 1
+                    time.append(t)
+                yield params, time, volume, status
