@@ -52,7 +52,6 @@ def read11(path):
                         nt0, dt0 = line.split(",")
                         nt.append(int(nt0))
                         dt.append(float(dt0))
-                print(dt, nt)
                 root = ET.parse(tar.extractfile(dirname + "/MSolveInput.xml"))
                 params = {
                     key.tag: float(key.text)
