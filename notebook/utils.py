@@ -4,6 +4,7 @@ import re
 import tarfile
 import xml.etree.ElementTree as ET
 
+
 KEYS = set(("miTumor", "k_th_tumor", "pv", "Sv", "k1", "Lp", "sf", "Per",
             "K_T", "k_on", "kd", "location", "totalTimeNoImmuno"))
 
@@ -74,7 +75,7 @@ def read11(path):
                         break
                     volume.append(float(v))
                     t += dt[j]
-                    if cnt == nt[j] - 1:
+                    if cnt == nt[j] - 1 and j < len(nt) - 1:
                         j += 1
                         cnt = 0
                     else:
