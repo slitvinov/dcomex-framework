@@ -17,6 +17,7 @@ LDFLAGS_GSL != pkg-config --libs gsl
 
 include obj.mk
 include py.mk
+include hdr.mk
 
 libkorali.so: $O
 	$(LINK) -shared $O $(LDFLAGS_GSL) $(LDFLAGS_MPI) $(LDFLAGS) -o $@
@@ -40,6 +41,11 @@ install: libkorali.so $P
 	do d=`dirname -- "$$i"` && \
 	   mkdir -p -- "$$p/$$d/" && \
 	   cp -- "$$i" "$$p/$$d/" || exit 2; \
+	done && \
+	for i in $H; \
+	do d=`dirname -- "$$i"` && \
+	   mkdir -p -- "$$p/korali/$$d/" && \
+	   cp -- "$$i" "$$p/korali/$$d/" || exit 2; \
 	done && \
 	cp -- libkorali.so "$$p/korali/" && \
 	printf '%s\n' "$$p"
