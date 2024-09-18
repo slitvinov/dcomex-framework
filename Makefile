@@ -4,7 +4,7 @@
 PY = python3
 PREFIX = /usr
 USER = 0
-D = https://download.visualstudio.microsoft.com/download/pr/01292c7c-a1ec-4957-90fc-3f6a2a1e5edc/025e84c4d9bd4aeb003d4f07b42e9159/dotnet-sdk-6.0.418-linux-x64.tar.gz
+ARCH = x64
 
 M = \
 follow.py\
@@ -16,6 +16,8 @@ setup.cfg\
 
 B = \
 bin/bio\
+bin/ode2vtk\
+bin/time2volume\
 
 all: lbin lib
 lbin: $B
@@ -26,9 +28,15 @@ lib: $M
 	'$(PY)' -m pip install .
 
 ldotnet:
-	wget -q '$D' && \
-	mkdir -p -- '$(PREFIX)/bin' && \
-	tar zxf dotnet-sdk-6.0.418-linux-x64.tar.gz -C '$(PREFIX)/bin'
+	mkdir -p -- '$(PREFIX)/bin'
+	case '$(ARCH)' in \
+	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/e94bb674-1fb1-4966-b2f0-bc9055ea33fc/428b37dee8ffb641fd1e45b401b2994c/dotnet-sdk-6.0.424-linux-x64.tar.gz && \
+		 tar zxf dotnet-sdk-6.0.424-linux-x64.tar.gz -C '$(PREFIX)/bin' ;; \
+	    arm64) wget -q https://download.visualstudio.microsoft.com/download/pr/5f4b8e71-b03a-45cb-9a81-3cfcb51ef346/eb9509f0a061be1106689c1fbf5d5169/dotnet-sdk-6.0.424-linux-arm64.tar.gz && \
+		   tar zxf dotnet-sdk-6.0.424-linux-arm64.tar.gz -C '$(PREFIX)/bin' ;; \
+	    *) printf "error: unknown arch '%s'\n" '$(ARCH)'; \
+	       exit 1 ;; \
+	esac
 
 lmsolve:
 	mkdir -p -- '$(PREFIX)/share'
@@ -50,7 +58,7 @@ lmsolve:
 	msolve/MGroup.Solvers.dll \
 	msolve/Triangle.dll \
 	msolve/RealisticMeshWithTetElements.mphtxt \
-	msolve/RealisticMeshWithTetElements_t_nodes_initialCs.csv \
+	msolve/t_ICs_realisticMesh_AdvancedModel.csv \
 	msolve/RealisticMeshWithTetElements_TumorCoordinates.csv \
 	'$(PREFIX)/share'
 
@@ -60,8 +68,7 @@ lkorali:
 .sh:
 	sed \
 	-e 's,%mph%,"$(PREFIX)"/share/RealisticMeshWithTetElements.mphtxt,g' \
-	-e 's,%csv%,"$(PREFIX)"/share/RealisticMeshWithTetElements_t_nodes_initialCs.csv,g' \
-	-e 's,%tumor%,"$(PREFIX)"/share/RealisticMeshWithTetElements_TumorCoordinates.csv,g' \
+	-e 's,%csv%,"$(PREFIX)"/share/t_ICs_realisticMesh_AdvancedModel.csv,g' \
 	-e 's,%dll%,"$(PREFIX)"/share/MGroup.MSolve4Korali.dll,g' \
 	$< > $@
 	chmod a+x $@

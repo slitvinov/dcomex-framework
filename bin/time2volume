@@ -1,0 +1,36 @@
+#!/usr/bin/awk -f
+
+BEGIN {
+    if (ARGC == 3) {
+	time_path = ARGV[1]
+	volume_path = ARGV[2]
+    } else if (ARGC == 2) {
+	time_path = ARGV[1] "/" "prescribedTimeSteppingList.txt"
+	volume_path = ARGV[1] "/" "tumorVolume_AnalysisNo_0.txt"
+    } else {
+	print "time2volume: error: needs one or two arguments" | "cat >&2"
+	exit(1)
+    }
+    i = 1
+    while ((rc = getline < time_path) == 1) {
+	split($0, a, ",")
+	nt[i] = a[1]
+	dt[i] = a[2]
+	i++
+    }
+    close(time_path)
+    if ((getline < volume_path) == 1) {
+	j = 1
+	time = 0
+	cnt = 0
+	for (i = 1; $i > 0; i++) {
+	    time += dt[j]
+	    if (cnt == nt[j] - 1) {
+		j += 1
+		cnt = 0
+	    } else
+		cnt ++
+	    printf "%.16e %s\n", time, $i
+	}
+    }
+}

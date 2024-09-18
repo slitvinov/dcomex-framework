@@ -21,7 +21,10 @@ def treatment(time, volume, start, ammount):
 D = [utils.read(path) for path in glob.glob("1/*/MSolveInput.xml")]
 params, time, volume = D[20]
 for ammount in 4, 8, 16, 32, 64, 128:
-    plt.plot(time, treatment(time, volume, start=0.5, ammount=ammount), 'g', label=f"{ammount}")
+    plt.plot(time,
+             treatment(time, volume, start=0.5, ammount=ammount),
+             'g',
+             label=f"{ammount}")
 plt.xlabel("time, seconds")
 plt.ylabel("tumor volume, mm^3")
 plt.legend()

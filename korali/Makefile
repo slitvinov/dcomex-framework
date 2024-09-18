@@ -1,6 +1,8 @@
 .POSIX:
 .SUFFIXES:
-.SUFFIXES: .c .cpp .o
+.SUFFIXES: .c
+.SUFFIXES: .cpp
+.SUFFIXES: .o
 
 PY = python3
 MPICXX = mpicxx
@@ -8,7 +10,7 @@ LINK = $(MPICXX)
 USER = 0
 CXXFLAGS_EIGEN3 != pkg-config --cflags eigen3
 CXXFLAGS_GSL != pkg-config --cflags gsl
-MPI4PY_DIR != dirname -- "`$(PY) -c 'import mpi4py; print(mpi4py.__file__)')`"
+MPI4PY_DIR != dirname -- "`$(PY) -c 'import mpi4py; print(mpi4py.__file__)'`"
 CXXFLAGS_MPI4PY = -I'$(MPI4PY_DIR)'/include
 CXXFLAGS = -O2 -g
 CXXFLAGS_STD = -std=c++17
