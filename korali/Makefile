@@ -34,7 +34,7 @@ libkorali.so: $O
 clean:
 	rm -f $O libkorali.so
 
-install: libkorali.so $P
+install: libkorali.so $P $H
 	case '$(USER)' in \
 	    0) p=`$(PY) -c "import site; print(site.getsitepackages()[0])"` || exit 2 ;; \
 	    *) p=`$(PY) -m site --user-site` || exit 2 ;; \
