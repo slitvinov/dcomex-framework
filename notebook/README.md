@@ -1,3 +1,4 @@
 ```
-python -m jupytext --sync korali.ipynb korali.md
+jupytext --set-formats ipynb,md korali.ipynb korali.bin.ipynb
+python -m jupytext --sync korali.ipynb korali.bin.ipynb
 ```
