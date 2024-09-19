@@ -1,6 +1,6 @@
 P != python -m site --user-site
 FLAGS_PYTHON != python3-config --cflags --libs --embed
-MPI4PY_DIR != dirname -- "`$(PY) -c 'import mpi4py; print(mpi4py.__file__)'`"
+MPI4PY_DIR != dirname -- "`python3 -c 'import mpi4py; print(mpi4py.__file__)'`"
 CXXFLAGS_MPI4PY = -I'$(MPI4PY_DIR)'/include
 
 MPICXX = mpicxx
