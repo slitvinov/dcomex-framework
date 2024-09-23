@@ -9,6 +9,6 @@ do if test $i -eq $n; then break; fi
 done | xargs -P "$P" -I{} -n 1 sh -c \
 	     'cd "{}" &&
 	      date > start &&
-	      dotnet ~/.local/share/MGroup.MSolve4Korali.dll MSolveInput.xml 0 2>stderr 1>stdout
+	      dotnet ~/.local/share/DrugDeliveryModel.dll ./MSolveInput.xml 0 2>stderr 1>stdout
 	      echo $? > status
 	      data > end'
