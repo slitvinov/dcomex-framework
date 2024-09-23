@@ -11,4 +11,4 @@ done | xargs -P "$P" -I{} -n 1 sh -c \
 	      date > start &&
 	      dotnet ~/.local/share/DrugDeliveryModel.dll ./MSolveInput.xml 0 2>stderr 1>stdout
 	      echo $? > status
-	      data > end'
+	      date > end'
