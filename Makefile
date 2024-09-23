@@ -80,6 +80,16 @@ msolve:
 	msolve/xunit.runner.reporters.netcoreapp10.dll \
 	msolve/xunit.runner.utility.netcoreapp10.dll \
 	msolve/xunit.runner.visualstudio.dotnetcore.testadapter.dll \
+	msolve/RealisticMeshWithTetElements_t_nodes_initialCs.csv \
+	msolve/t_ICs_243tetMesh_AdvancedModel.csv \
+	msolve/tICsBiggerRadiusRexported.csv \
+	msolve/t_ICs_gmsh1158_cmsl.csv \
+	msolve/t_ICs_gmsh1285_cmsl.csv \
+	msolve/tICsgmsh1752.csv \
+	msolve/t_ICs_gmsh902.csv \
+	msolve/t_ICs_realisticMesh_AdvancedModel.csv \
+	msolve/t_ICs_realisticMesh_UPDATEDModel.csv \
+	msolve/t_nodes_cmsl_Mesh243.csv \
 	'$(PREFIX)/share'
 
 korali:
