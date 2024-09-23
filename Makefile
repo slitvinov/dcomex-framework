@@ -41,25 +41,45 @@ dotnet:
 msolve:
 	mkdir -p -- '$(PREFIX)/share'
 	cp -- \
+	msolve/Castle.Core.dll \
+	msolve/Compute.Bindings.IntelMKL.dll \
 	msolve/CSparse.dll \
 	msolve/DotNumerics.dll \
+	msolve/DrugDeliveryModel.dll \
 	msolve/MGroup.Constitutive.ConvectionDiffusion.dll \
 	msolve/MGroup.Constitutive.Structural.dll \
+	msolve/MGroup.DrugDeliveryModel.Tests.dll \
+	msolve/MGroup.Environments.dll \
 	msolve/MGroup.FEM.ConvectionDiffusion.dll \
 	msolve/MGroup.FEM.dll \
 	msolve/MGroup.FEM.Structural.dll \
 	msolve/MGroup.LinearAlgebra.Distributed.dll \
 	msolve/MGroup.LinearAlgebra.dll \
-	msolve/MGroup.MSolve4Korali.dll \
-	msolve/MGroup.MSolve4Korali.runtimeconfig.json \
 	msolve/MGroup.MSolve.Core.dll \
 	msolve/MGroup.NumericalAnalyzers.Discretization.dll \
 	msolve/MGroup.NumericalAnalyzers.dll \
 	msolve/MGroup.Solvers.dll \
+	msolve/Microsoft.TestPlatform.CommunicationUtilities.dll \
+	msolve/Microsoft.TestPlatform.CoreUtilities.dll \
+	msolve/Microsoft.TestPlatform.CrossPlatEngine.dll \
+	msolve/Microsoft.TestPlatform.PlatformAbstractions.dll \
+	msolve/Microsoft.TestPlatform.Utilities.dll \
+	msolve/Microsoft.VisualStudio.CodeCoverage.Shim.dll \
+	msolve/Microsoft.VisualStudio.TestPlatform.Common.dll \
+	msolve/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll \
+	msolve/Moq.dll \
+	msolve/MPI.dll \
+	msolve/Newtonsoft.Json.dll \
+	msolve/System.Xml.XPath.XmlDocument.dll \
+	msolve/testhost.dll \
 	msolve/Triangle.dll \
-	msolve/RealisticMeshWithTetElements.mphtxt \
-	msolve/t_ICs_realisticMesh_AdvancedModel.csv \
-	msolve/RealisticMeshWithTetElements_TumorCoordinates.csv \
+	msolve/xunit.abstractions.dll \
+	msolve/xunit.assert.dll \
+	msolve/xunit.core.dll \
+	msolve/xunit.execution.dotnet.dll \
+	msolve/xunit.runner.reporters.netcoreapp10.dll \
+	msolve/xunit.runner.utility.netcoreapp10.dll \
+	msolve/xunit.runner.visualstudio.dotnetcore.testadapter.dll \
 	'$(PREFIX)/share'
 
 korali:
