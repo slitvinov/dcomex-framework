@@ -106,6 +106,12 @@
             Authors: Gerasimos Sotiropoulos
             </summary>
         </member>
+        <member name="T:MGroup.FEM.Structural.Continuum.ContinuumElement3DGrowthPorousComsol2develop">
+            <summary>
+            Continuum finite Element for 3d problems with material and geometric nonlinearities
+            Authors: Gerasimos Sotiropoulos
+            </summary>
+        </member>
         <member name="T:MGroup.FEM.Structural.Continuum.ContinuumElement3DNonLinear">
             <summary>
             Continuum finite Element for 3d problems with material and geometric nonlinearities
@@ -149,6 +155,33 @@
             <summary>
             Continuum finite Element for 3d problems with material and geometric nonlinearities
             Authors: Gerasimos Sotiropoulos
+            </summary>
+        </member>
+        <member name="T:MGroup.FEM.Structural.Continuum.SingleDofElement">
+            <summary>
+            Represents a continuum finite element for 3D problems. Specific elements (e.g. Hexa8, Hexa20, ...) can be created using
+            the appropriate <see cref="!:IIsoparametricInterpolation3D_OLD"/>, <see cref="T:MGroup.MSolve.Numerics.Integration.Quadratures.IQuadrature3D"/> etc. strategies. 
+            Authors: Dimitris Tsapetis
+            </summary>
+        </member>
+        <member name="M:MGroup.FEM.Structural.Continuum.SingleDofElement.FindCentroid">
+            <summary>
+            Calculates the coordinates of the centroid of this element.
+            </summary>
+        </member>
+        <member name="M:MGroup.FEM.Structural.Continuum.SingleDofElement.BuildDeformationMatrix(MGroup.LinearAlgebra.Matrices.Matrix)">
+            <summary>
+            Assembles the deformation matrix of a solid element.
+            The calculation are based on <see cref="!:https://www.colorado.edu/engineering/CAS/courses.d/AFEM.d/AFEM.Ch08.d/AFEM.Ch08.pdf"/>
+            paragraph 8.4, equation 8.7
+            </summary>
+            <param name="shapeGradients"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MGroup.FEM.Structural.Continuum.SingleDofElement.BuildShapeFunctionMatrix(System.Double[])">
+            <summary>
+            The shape function matrix is 2-by-2n, where n = is the number of shape functions. Row 0 corresponds to dof X, while
+            row 1 to dof Y, etc.
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:MGroup.FEM.Structural.Continuum.SolidShellEAS7ANS" -->
