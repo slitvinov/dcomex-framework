@@ -19,15 +19,15 @@ bin/bio\
 bin/ode2vtk\
 bin/time2volume\
 
-all: lbin lib
-lbin: $B
+all: bin lib
+bin: $B
 	mkdir -p -- '$(PREFIX)/bin'
 	for i in $B; do cp -- "$$i" '$(PREFIX)/bin' || exit 2; done
 
 lib: $M
 	'$(PY)' -m pip install .
 
-ldotnet:
+dotnet:
 	mkdir -p -- '$(PREFIX)/bin'
 	case '$(ARCH)' in \
 	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/e94bb674-1fb1-4966-b2f0-bc9055ea33fc/428b37dee8ffb641fd1e45b401b2994c/dotnet-sdk-6.0.424-linux-x64.tar.gz && \
@@ -38,7 +38,7 @@ ldotnet:
 	       exit 1 ;; \
 	esac
 
-lmsolve:
+msolve:
 	mkdir -p -- '$(PREFIX)/share'
 	cp -- \
 	msolve/CSparse.dll \
@@ -62,7 +62,7 @@ lmsolve:
 	msolve/RealisticMeshWithTetElements_TumorCoordinates.csv \
 	'$(PREFIX)/share'
 
-lkorali:
+korali:
 	cd korali && make 'USER = $(USER)' install
 
 .sh:
@@ -72,3 +72,5 @@ lkorali:
 	-e 's,%dll%,"$(PREFIX)"/share/MGroup.MSolve4Korali.dll,g' \
 	$< > $@
 	chmod a+x $@
+
+.PHONY: korali msolve lib dotnet bin all

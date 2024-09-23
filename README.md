@@ -52,9 +52,9 @@ The online documentation is at
 Install korali, integration tools, and Msolve application
 
 ```
-$ make 'USER = 1' 'PREFIX = $(HOME)/.local' lkorali
-$ make 'USER = 1' 'PREFIX = $(HOME)/.local' lbin lib
-$ make 'USER = 1' 'PREFIX = $(HOME)/.local' lmsolve
+$ make 'USER = 1' 'PREFIX = $(HOME)/.local' korali
+$ make 'USER = 1' 'PREFIX = $(HOME)/.local' bin lib
+$ make 'USER = 1' 'PREFIX = $(HOME)/.local' msolve
 ```
 
 Run examples
