@@ -30,8 +30,8 @@ lib: $M
 dotnet:
 	mkdir -p -- '$(PREFIX)/bin'
 	case '$(ARCH)' in \
-	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/e94bb674-1fb1-4966-b2f0-bc9055ea33fc/428b37dee8ffb641fd1e45b401b2994c/dotnet-sdk-6.0.424-linux-x64.tar.gz && \
-		 tar zxf dotnet-sdk-6.0.424-linux-x64.tar.gz -C '$(PREFIX)/bin' ;; \
+	    x64) wget -q https://download.visualstudio.microsoft.com/download/pr/db901b0a-3144-4d07-b8ab-6e7a43e7a791/4d9d1b39b879ad969c6c0ceb6d052381/dotnet-sdk-8.0.401-linux-x64.tar.gz && \
+		 tar zxf dotnet-sdk-8.0.401-linux-x64.tar.gz -C '$(PREFIX)/bin' ;; \
 	    arm64) wget -q https://download.visualstudio.microsoft.com/download/pr/5f4b8e71-b03a-45cb-9a81-3cfcb51ef346/eb9509f0a061be1106689c1fbf5d5169/dotnet-sdk-6.0.424-linux-arm64.tar.gz && \
 		   tar zxf dotnet-sdk-6.0.424-linux-arm64.tar.gz -C '$(PREFIX)/bin' ;; \
 	    *) printf "error: unknown arch '%s'\n" '$(ARCH)'; \
