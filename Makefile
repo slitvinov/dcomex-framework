@@ -77,6 +77,7 @@ msolve:
 	msolve/DrugDeliveryModel.runtimeconfig.json \
 	msolve/MGroup.DrugDeliveryModel.Tests.runtimeconfig.json \
 	msolve/gmsh1752_reexported.mphtxt \
+	msolve/tICsgmsh1752.csv \
 	'$(PREFIX)/share'
 
 korali:
