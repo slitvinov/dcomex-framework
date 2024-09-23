@@ -90,6 +90,10 @@ msolve:
 	msolve/t_ICs_realisticMesh_AdvancedModel.csv \
 	msolve/t_ICs_realisticMesh_UPDATEDModel.csv \
 	msolve/t_nodes_cmsl_Mesh243.csv \
+	msolve/DrugDeliveryModel.exe \
+	msolve/DrugDeliveryModel.deps.json \
+	msolve/DrugDeliveryModel.runtimeconfig.json \
+	msolve/MGroup.DrugDeliveryModel.Tests.runtimeconfig.json \
 	'$(PREFIX)/share'
 
 korali:
