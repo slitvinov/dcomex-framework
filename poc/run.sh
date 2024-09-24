@@ -1,11 +1,6 @@
 : ${P=72}
-n=1024
-i=0
-while :
-do if test $i -eq $n; then break; fi
-   d=`printf %08d $i`
-   echo $d
-   i=$((i+1))
+for d in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
+do echo $d
 done | xargs -P "$P" -I{} -n 1 sh -c \
 	     'cd "{}" &&
 	      date > start &&
