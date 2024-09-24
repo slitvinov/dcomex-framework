@@ -1,4 +1,4 @@
-: ${zip=b.zip}
+: ${zip=a.zip}
 rm $zip
 
 m=0 n=
