@@ -25,8 +25,9 @@ par = (
     ("kd", "rnd", 2.9981e+04, 9.2966e+04),
 )
 random.seed(12345)
-n = 1024
-for i in range(n):
+start = 0
+end = 512
+for i in range(start, end):
     dir = "%08d" % i
     os.makedirs(dir, exist_ok=True)
     print(os.path.join(dir, "MSolveInput.xml"))
