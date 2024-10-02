@@ -8,12 +8,12 @@ for params, time, volume, status in utils.read11("1.tar.gz"):
     volume = np.divide(volume, volume[0])
     location = params["location"]
     index = np.searchsorted(time, location)
-    style = "k-" if status == 0 else "r-"
-    plt.plot(time, volume, style, alpha=0.5)
+    color = "k" if status == 0 else "r"
+    plt.plot(time, volume, color + "-", alpha=0.5)
     if index < len(volume):
-        plt.plot([location], [volume[index]], "ok", alpha=0.5)
+        plt.plot([location], [volume[index]], color + "o", alpha=0.5)
     cnt += 1
-    if cnt % 10 == 0:
+    if cnt % 20 == 0:
         path = f"immuno.{cnt:05}.png"
         print(path)
         plt.yscale("log")
