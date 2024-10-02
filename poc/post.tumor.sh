@@ -13,4 +13,4 @@ do if test -f ${d}status
 	    || exit 1
    fi
 done
-gzip -f9 "$tar"
+# gzip -f9 "$tar"
