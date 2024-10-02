@@ -2,8 +2,10 @@ import itertools
 import math
 import os
 import re
+import sys
 import tarfile
 import xml.etree.ElementTree as ET
+import glob
 
 KEYS = set(("miTumor", "k_th_tumor", "pv", "Sv", "k1", "Lp", "sf", "Per",
             "K_T", "k_on", "kd", "location", "totalTimeNoImmuno"))
@@ -38,29 +40,27 @@ def read(path):
 
 
 def read11(path):
-    with tarfile.open(path, 'r') as tar:
-        for member in tar.getmembers():
-            if re.match("^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/status$",
-                        member.name):
-                dirname = re.sub("/status$", "", member.name)
-                root = ET.parse(tar.extractfile(dirname + "/MSolveInput.xml"))
-                params = {
-                    key.tag: float(key.text)
-                    for key in root.find('./Parameters') if key.tag in KEYS
-                }
-                status = int(tar.extractfile(dirname +
-                                          "/status").read().decode('utf-8'))
-                volume_file = tar.extractfile(
-                    dirname +
-                    "/tumorVolume_AnalysisNo_1.txt").read().decode('utf-8')
-                time_file = tar.extractfile(
-                    dirname +
-                    "/timeStepTotalTimes_AnalysisNo_1.txt").read().decode('utf-8')
-                volume = [ ]
-                time = [ ]
-                for t, v in zip(time_file.split(), volume_file.split()):
-                    if v == "0.000000E+000":
-                        break
-                    time.append(float(t))
-                    volume.append(float(v))
-                yield params, time, volume, status
+    for status_path in glob.glob(
+            os.path.join(path, "[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]",
+                         "status")):
+        dirname = os.path.dirname(status_path)
+        root = ET.parse(os.path.join(dirname, "MSolveInput.xml"))
+        params = {
+            key.tag: float(key.text)
+            for key in root.find('./Parameters') if key.tag in KEYS
+        }
+        volume_path = os.path.join(dirname, "tumorVolume_AnalysisNo_1.txt")
+        time_path = os.path.join(dirname,
+                                 "timeStepTotalTimes_AnalysisNo_1.txt")
+        with open(status_path) as status_file, open(
+                volume_path) as volume_file, open(time_path) as time_file:
+            status = int(status_file.read())
+            volume = []
+            time = []
+            for t, v in zip(time_file.read().split(),
+                            volume_file.read().split()):
+                if v == "0.000000E+000":
+                    break
+                time.append(float(t))
+                volume.append(float(v))
+        yield params, time, volume, status
