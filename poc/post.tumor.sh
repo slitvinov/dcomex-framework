@@ -8,8 +8,8 @@ do if test -f ${d}status
 	    ${d}prescribedTimeSteppingList.txt \
 	    ${d}status \
 	    ${d}stderr \
-	    ${d}timeStepTotalTimes_AnalysisNo_0.txt \
-	    ${d}tumorVolume_AnalysisNo_0.txt \
+	    ${d}timeStepTotalTimes_AnalysisNo_1.txt \
+	    ${d}tumorVolume_AnalysisNo_1.txt \
 	    || exit 1
    fi
 done
