@@ -7,6 +7,5 @@ do if test -f ${d}status
 	  ${d}timeStepTotalTimes_AnalysisNo_1.txt \
 	  ${d}tumorVolume_AnalysisNo_1.txt \
 	  || exit 1
-   fi
 done
 # gzip -f9 "$tar"
