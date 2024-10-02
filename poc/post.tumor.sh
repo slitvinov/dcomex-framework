@@ -1,6 +1,4 @@
-: ${tar=b.tar}
-rm $tar
-
+: ${tar=~/1.tar}
 m=0
 for d in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
 do if test -f ${d}status
