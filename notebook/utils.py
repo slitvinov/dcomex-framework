@@ -52,10 +52,10 @@ def read11(path):
                                           "/status").read().decode('utf-8'))
                 volume_file = tar.extractfile(
                     dirname +
-                    "/tumorVolume_AnalysisNo_0.txt").read().decode('utf-8')
+                    "/tumorVolume_AnalysisNo_1.txt").read().decode('utf-8')
                 time_file = tar.extractfile(
                     dirname +
-                    "/timeStepTotalTimes_AnalysisNo_0.txt").read().decode('utf-8')
+                    "/timeStepTotalTimes_AnalysisNo_1.txt").read().decode('utf-8')
                 volume = [ ]
                 time = [ ]
                 for t, v in zip(time_file.split(), volume_file.split()):
