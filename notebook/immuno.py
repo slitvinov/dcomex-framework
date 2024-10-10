@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def key(D):
     params, time, volume, status = D
-    return params["k_th_tumor"]
+    return max(volume)
 
 
 cnt = 0
