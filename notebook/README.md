@@ -7,3 +7,8 @@ Unpack
 ```
 tar zxf 1.tar.gz
 ```
+
+Collage
+```
+montage -geometry +0+0 -tile 8x immuno.*.png out.png
+```
