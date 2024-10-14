@@ -49,5 +49,5 @@ install: libkorali.so $P $H
 	   mkdir -p -- "$$p/korali/$$d/" && \
 	   cp -- "$$i" "$$p/korali/$$d/" || exit 2; \
 	done && \
-	cp -- libkorali.so "$$p/korali/" && \
+	cp -- libkorali.so "$$p" && \
 	printf '%s\n' "$$p"
