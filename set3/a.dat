@@ -1,16 +1,16 @@
-double location = 7.01;
-double location_2 = 9.01;
-double location_3 = 11.01;
-bool includeImmuno = true;
-bool useSingleImmunoTherapy = false;
+double location = 7.01
+double location_2 = 9.01
+double location_3 = 11.01
+bool includeImmuno = false
+bool useSingleImmunoTherapy = false
+double sf = 0.136;  {unit "1"}
+double Per = 4.16e-9 ; {unit "m/s"}
+double K_T = 1.2731E-6 ;{unit "kg/(m³·s)"}
+double k_on = 1.1574E-8  {unit  "m³/(kg·s)" }
+double kd = 2.9981e+04  , { unit  "sec }
 double miTumor {unit "Kpa"} {range: 5 - 50}
-double k_th_tumor {unit m2/(KPa sec)} {range: 7.5231e-12 -  7.5231e-10}
+double k_th_tumor {unit m2/(KPa sec)} {range: 7.5231e-12 - 7.5231e-10}
 double pv {unit "Kpa"} {range 0.6666 - 6.6661}
 double Sv {unit "1/m"} {range 5000 - 20000}
-double k1 {unit "1/s"} {range 1.1574e-6 - 3.9884e-06},
-double Lp {unit "m/(kPa*sec)"} {range 1.56e-8 - 8e-7},
-double sf {unit "1"} {range 0.136 - 0.146},
-double Per {unit "m/s"} {range 4.16e-9 - 6.225 e-8},
-double K_T {unit "kg/(m³·s)"} {range 1.2731E-6 - 1.2731E-4},
-double k_on {unit  "m³/(kg·s)" } {range 1.1574E-8 - 1.1574E-2},
-double kd { unit  "sec } { range 2.9981e+04 - 9.2966e+04}
+double k1 {unit "1/s"} {range 1.1574e-6  -  3.9884e-06},
+double Lp {unit "m/(kPa*sec)"} {range 1.56e-8 - 8e-7}
