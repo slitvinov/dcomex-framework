@@ -3,14 +3,13 @@ from mpi4py import MPI
 
 
 def env(s):
-    sampleId = s["Sample Id"]
     comm = korali.getWorkerMPIComm()
     rank = comm.Get_rank()
     size = comm.Get_size()
     action = None
     if rank == 0:
         s["State"] = [0.0]
-    for step in range(5):
+    for step in range(2):
         if rank == 0:
             s.update()
             s["Reward"] = 0.0
@@ -18,9 +17,9 @@ def env(s):
             action = s["Action"]
         action = comm.bcast(action, root=0)
         for i in range(size):
-            comm.Barrier()
             if i == rank:
-                print("rank ID step [action]:", rank, sampleId, step, action)
+                print("rank ID step [action]: %d %d %d [%g]" %
+                      (rank, s["Sample Id"], step, action[0]))
             comm.Barrier()
     if rank == 0:
         s["Termination"] = "Terminal"
@@ -30,6 +29,8 @@ k = korali.Engine()
 e = korali.Experiment()
 e["Problem"]["Type"] = "Reinforcement Learning / Continuous"
 e["Problem"]["Environment Function"] = env
+e["Problem"]["Testing Frequency"] = 0
+e["Random Seed"] = 0xC0FFEE
 e["Variables"][0]["Name"] = "Position"
 e["Variables"][1]["Name"] = "Force"
 e["Variables"][1]["Type"] = "Action"
@@ -45,7 +46,8 @@ e["Solver"]["Neural Network"]["Engine"] = "Korali"
 e["Solver"]["Neural Network"]["Optimizer"] = "Adam"
 e["Solver"]["Neural Network"]["Hidden Layers"][0]["Type"] = "Layer/Linear"
 e["Solver"]["Neural Network"]["Hidden Layers"][0]["Output Channels"] = 4
-e["Solver"]["Termination Criteria"]["Max Generations"] = 3
+e["Solver"]["Termination Criteria"]["Max Generations"] = 2
+e["Console Output"]["Verbosity"] = "Minimal"
 k["Conduit"]["Type"] = "Distributed"
 k["Conduit"]["Ranks Per Worker"] = 2
 
