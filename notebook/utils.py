@@ -6,8 +6,12 @@ import sys
 import tarfile
 import xml.etree.ElementTree as ET
 import glob
+
+
 def convert(key):
-    return True if key.text == "true" else False if key.text == "false" else float(key.text)
+    return True if key.text == "true" else False if key.text == "false" else float(
+        key.text)
+
 
 def fix_time(time):
     t = 0
@@ -43,10 +47,7 @@ def read11(path):
                          "status")):
         dirname = os.path.dirname(status_path)
         root = ET.parse(os.path.join(dirname, "MSolveInput.xml"))
-        params = {
-            key.tag: convert(key)
-            for key in root.find('./Parameters')
-        }
+        params = {key.tag: convert(key) for key in root.find('./Parameters')}
         volume_path = os.path.join(dirname, "tumorVolume_AnalysisNo_1.txt")
         time_path = os.path.join(dirname,
                                  "timeStepTotalTimes_AnalysisNo_1.txt")
