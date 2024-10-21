@@ -7,5 +7,5 @@ tar=~/3.tar sh /scratch/slitvinov/dcomex-framework/poc/post.tumor.sh
 '
 done
 
-ssh grace 'gzip -f ~/3.tar'
+ssh grace 'gzip -9 -f ~/3.tar'
 scp grace:3.tar.gz .
