@@ -6,39 +6,29 @@ import sys
 import tarfile
 import xml.etree.ElementTree as ET
 import glob
+try:
+    import openpyxl
+except ImportError:
+    scipy = None
+
+tstart = {
+    "4T1": 10,
+    "B16F10": 10,
+    "MCA205": 4,
+    "E0771": 7,
+}
+
+color = {
+    "4T1": "r",
+    "B16F10": "g",
+    "MCA205": "b",
+    "E0771": "m",
+}
 
 
 def convert(key):
     return True if key.text == "true" else False if key.text == "false" else float(
         key.text)
-
-
-def fix_time(time):
-    t = 0
-    n = len(time)
-    ans = [0]
-    for i in range(n - 1):
-        dt = time[i + 1] - time[i]
-        if i > 0 and not math.isclose(dt, prev):
-            t += prev
-        else:
-            t += dt
-        ans.append(t)
-        prev = dt
-    return ans
-
-
-def read(path):
-    root = ET.parse(path)
-    params = [
-        float(root.find('./Parameters/' + key).text)
-        for key in ("k1", "mu", "svTumor")
-    ]
-    root = ET.parse(os.path.join(os.path.dirname(path), "MSolveOutput-x.xml"))
-    time, volume = zip(
-        *[[float(t.get("time")), float(t.text)]
-          for t in root.findall("./TumorVolumes/TumorVolume")])
-    return params, fix_time(time), volume
 
 
 def read11(path):
@@ -63,3 +53,32 @@ def read11(path):
                 time.append(float(t))
                 volume.append(float(v))
         yield params, time, volume, status
+
+
+def experiment(path):
+    if openpyxl is None:
+        raise ModuleNotFoundError(
+            "utils.experiment needs `openpyxl' python package")
+    w = openpyxl.load_workbook(path)
+
+    def get():
+        D = ((t.value, s[t.row][c.column - 1].value) for t in Time)
+        D = ((time, volume) for time, volume in D if volume is not None)
+        return zip(*D)
+
+    D = {}
+    for s in w:
+        for v in s["B"]:
+            if v.value == 0:
+                row = v.row
+        Time = [t for t in s["B"][row - 1:]]
+        for c in s[row - 1][2:]:
+            if c.value is not None:
+                name = c.value.lower()
+                if re.match("^control", name):
+                    time, volume = get()
+                    D[s.title, name] = time, volume
+                elif re.match("^apdl", name):
+                    time, volume = get()
+                    D[s.title, name] = time, volume
+    return D
