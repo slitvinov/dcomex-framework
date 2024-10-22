@@ -15,7 +15,7 @@ def key(D):
 def experiment():
     E = utils.experiment("data.xlsx")
     for (typ, name), (time, volume) in E.items():
-        if re.match("^control", name):
+        if not re.match("^control", name) and typ == "4T1":
             time0 = utils.tstart[typ]
             color = utils.color[typ]
             try:
@@ -31,7 +31,7 @@ def experiment():
 
 D = sorted(utils.read11("."), key=key)
 mvolume = (key(d) for d in D)
-*rest, volume_max = statistics.quantiles(mvolume, n=50)
+*rest, volume_max = statistics.quantiles(mvolume, n=200)
 Status = collections.Counter()
 cnt = 0
 for params, time, volume, status in D:
