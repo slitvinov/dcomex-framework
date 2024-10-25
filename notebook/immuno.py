@@ -38,14 +38,13 @@ for params, time, volume, status in D:
     time = np.divide(time, 60 * 60 * 24)
     volume = np.divide(volume, volume[0])
     Status[status] += 1
-    # color = "k" if status == 0 else "r"
-    if status == 0:
-        plt.plot(time, volume, "k", alpha=0.5)
-        if params["includeImmuno"]:
-            location = params["location"]
-            index = np.searchsorted(time, location)
-            if index < len(volume):
-                plt.plot([location], [volume[index]], "k")
+    color = "k" if status == 0 else "b"
+    plt.plot(time, volume, color, alpha=0.5)
+    if params["includeImmuno"]:
+        location = params["location"]
+        index = np.searchsorted(time, location)
+        if index < len(volume):
+            plt.plot([location], [volume[index]], "k")
     cnt += 1
     if cnt % 16 == 0:
         path = f"immuno.{cnt:05}.png"
