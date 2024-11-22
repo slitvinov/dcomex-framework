@@ -21,12 +21,12 @@ par = (
     ("k_on", "rnd", 1.1574E-8, 1.1574E-2),
     ("kd", "rnd", 2.9981e+04, 9.2966e+04),
 )
-l1l = 7, 8, 9, 10, 11
-l2l = 8, 9, 10, 12
-l3l = 9, 10, 13
+l1l = range(7, 14)
+l2l = range(7, 14)
+l3l = range(7, 14)
 random.seed(12345)
 i = 0
-for j in range(100):
+for j in range(32):
     Val = {}
     for name, type, a, *rest in par:
         if type == "rnd":
