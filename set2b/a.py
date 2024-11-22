@@ -7,9 +7,6 @@ csv = "tICsgmsh1752.csv"
 data_dir = os.path.expanduser(os.path.join("~", ".local", "share"))
 
 par = (
-    ("location", "fix", 7.01),
-    ("location_2", "fix", 9.01),
-    ("location_3", "fix", 11.01),
     ("includeImmuno", "fix", "true"),
     ("useSingleImmunoTherapy", "fix", "false"),
     ("miTumor", "rnd", 5, 50),
@@ -29,7 +26,7 @@ l2l = 8, 9, 10, 12
 l3l = 9, 10, 13
 random.seed(12345)
 i = 0
-for j in range(1024):
+for j in range(100):
     for l1, l2, l3 in itertools.product(l1l, l2l, l3l):
         if l1 < l2 < l3:
             dir = "%08d" % i
@@ -66,6 +63,11 @@ for j in range(1024):
 """ % (name, a, name))
                     else:
                         assert False
+                for name, a in ("location", l1), ("location_2",
+                                                  l2), ("location_3", l3):
+                    f.write("""\
+    <%s>%.16e</%s>
+""" % (name, a, name))
                 f.write("""\
   </Parameters>
 </MSolve4Korali>
