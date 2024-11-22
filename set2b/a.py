@@ -1,5 +1,6 @@
 import random
 import os
+import itertools
 
 mph = "gmsh1752_reexported.mphtxt"
 csv = "tICsgmsh1752.csv"
@@ -23,13 +24,19 @@ par = (
     ("k_on", "rnd", 1.1574E-8, 1.1574E-2),
     ("kd", "rnd", 2.9981e+04, 9.2966e+04),
 )
+l1l = 7, 8, 9, 10, 11
+l2l = 8, 9, 10, 12
+l3l = 9, 10, 13
 random.seed(12345)
-for i in range(1024):
-    dir = "%08d" % i
-    os.makedirs(dir, exist_ok=True)
-    print(os.path.join(dir, "MSolveInput.xml"))
-    with open(os.path.join(dir, "MSolveInput.xml"), "w") as f:
-        f.write("""\
+i = 0
+for j in range(1024):
+    for l1, l2, l3 in itertools.product(l1l, l2l, l3l):
+        if l1 < l2 < l3:
+            dir = "%08d" % i
+            os.makedirs(dir, exist_ok=True)
+            print(os.path.join(dir, "MSolveInput.xml"))
+            with open(os.path.join(dir, "MSolveInput.xml"), "w") as f:
+                f.write("""\
 <MSolve4Korali version="1.0">
   <Paths>
     <OutputDir>./</OutputDir>
@@ -42,24 +49,25 @@ for i in range(1024):
   <Output><TumorVolume/></Output>
   <Parameters>
 """ % (os.path.join(data_dir, mph), os.path.join(data_dir, csv)))
-        for name, type, a, *rest in par:
-            if type == "rnd":
-                b, = rest
-                f.write("""\
+                for name, type, a, *rest in par:
+                    if type == "rnd":
+                        b, = rest
+                        f.write("""\
     <%s>%.16e</%s>
 """ % (name, random.uniform(a, b), name))
-            elif type == "fix":
-                if isinstance(a, str):
-                    f.write("""\
+                    elif type == "fix":
+                        if isinstance(a, str):
+                            f.write("""\
     <%s>%s</%s>
 """ % (name, a, name))
-                else:
-                    f.write("""\
+                        else:
+                            f.write("""\
     <%s>%.16e</%s>
 """ % (name, a, name))
-            else:
-                assert False
-        f.write("""\
+                    else:
+                        assert False
+                f.write("""\
   </Parameters>
 </MSolve4Korali>
 """)
+                i += 1

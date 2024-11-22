@@ -1,6 +1,6 @@
-double location = 7.01
-double location_2 = 9.01
-double location_3 = 11.01
+double location = {7, 8, 9, 10, 11}
+double location_2 = {8, 9, 10, 12}
+double location_3 = {9, 10, 13}
 bool includeImmuno = true
 bool useSingleImmunoTherapy = false
 double miTumor {unit "Kpa"} {range: 5 - 50}
