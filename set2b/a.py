@@ -27,6 +27,13 @@ l3l = 9, 10, 13
 random.seed(12345)
 i = 0
 for j in range(100):
+    Val = {}
+    for name, type, a, *rest in par:
+        if type == "rnd":
+            b, = rest
+            Val[name] = random.uniform(a, b)
+        elif type == "fix":
+            Val[name] = a if isinstance(a, str) else "%.16e" % a
     for l1, l2, l3 in itertools.product(l1l, l2l, l3l):
         if l1 < l2 < l3:
             dir = "%08d" % i
@@ -46,23 +53,10 @@ for j in range(100):
   <Output><TumorVolume/></Output>
   <Parameters>
 """ % (os.path.join(data_dir, mph), os.path.join(data_dir, csv)))
-                for name, type, a, *rest in par:
-                    if type == "rnd":
-                        b, = rest
-                        f.write("""\
-    <%s>%.16e</%s>
-""" % (name, random.uniform(a, b), name))
-                    elif type == "fix":
-                        if isinstance(a, str):
-                            f.write("""\
+                for name, *rest in par:
+                    f.write("""\
     <%s>%s</%s>
-""" % (name, a, name))
-                        else:
-                            f.write("""\
-    <%s>%.16e</%s>
-""" % (name, a, name))
-                    else:
-                        assert False
+""" % (name, Val[name], name))
                 for name, a in ("location", l1), ("location_2",
                                                   l2), ("location_3", l3):
                     f.write("""\
