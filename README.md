@@ -9,14 +9,6 @@ integration example use the
 $ docker build github.com/DComEX/dcomex-framework --tag dcomex
 $ docker run -it dcomex bash
 ```
-inside the container run
-```
-$ cd /src/tests/units
-$ ./run.sh
-$ cd /src/tests/validation/inference_heat/
-$ OMP_NUM_THREADS=1 ./run_inference.py --num-cores 12 --num-samples 200
-```
-
 To run one Msolve simulation
 ```
 $ bio 1 2 3

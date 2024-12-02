@@ -8,7 +8,12 @@ import re
 
 
 def key(D):
-    params, time, volume, status = D
+    params, time, volume, status, path = D
+    return path
+
+
+def volume(D):
+    params, time, volume, *rest = D
     return max(volume) / volume[0]
 
 
@@ -30,11 +35,11 @@ def experiment():
 
 
 D = sorted(utils.read11("."), key=key)
-mvolume = (key(d) for d in D)
+mvolume = (volume(d) for d in D)
 *rest, volume_max = statistics.quantiles(mvolume, n=200)
 Status = collections.Counter()
 cnt = 0
-for params, time, volume, status in D:
+for params, time, volume, status, path in D:
     time = np.divide(time, 60 * 60 * 24)
     volume = np.divide(volume, volume[0])
     Status[status] += 1
@@ -46,7 +51,7 @@ for params, time, volume, status in D:
         if index < len(volume):
             plt.plot([location], [volume[index]], "k")
     cnt += 1
-    if cnt % 16 == 0:
+    if cnt % 35 == 0:
         path = f"immuno.{cnt:05}.png"
         sys.stderr.write(f"immuno.py: {path}\n")
         plt.yscale("log")

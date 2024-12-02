@@ -52,7 +52,7 @@ def read11(path):
                     break
                 time.append(float(t))
                 volume.append(float(v))
-        yield params, time, volume, status
+        yield params, time, volume, status, status_path
 
 
 def experiment(path):
