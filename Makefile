@@ -81,7 +81,7 @@ msolve:
 	'$(PREFIX)/share'
 
 korali:
-	cd korali && make 'USER = $(USER)' install
+	cd korali && $(MAKE) 'USER = $(USER)' install
 
 .sh:
 	sed \
