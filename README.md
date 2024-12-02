@@ -44,7 +44,7 @@ The online documentation is at
 Install korali, integration tools, and Msolve application
 
 ```
-$ make 'USER = 1' 'PREFIX = $(HOME)/.local' korali
+$ MAKEFLAGS='-j 8' make 'USER = 1' 'PREFIX = $(HOME)/.local' korali
 $ make 'USER = 1' 'PREFIX = $(HOME)/.local' bin lib
 $ make 'USER = 1' 'PREFIX = $(HOME)/.local' msolve
 ```
