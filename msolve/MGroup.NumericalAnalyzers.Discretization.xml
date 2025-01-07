@@ -235,5 +235,122 @@
             = 0.551 * T, where w is the maximum natural radian frequency and T is the minimum natural period.
             </summary>
         </member>
+        <member name="F:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.beta">
+            <summary>
+            This class makes the appropriate arrangements for the solution of linear dynamic equations
+            according to implicit Generalized alpha method
+            Authors: George Stavroulakis
+            </summary>
+        </member>
+        <member name="F:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.gamma">
+            <summary>
+            This class makes the appropriate arrangements for the solution of linear dynamic equations
+            according to implicit Generalized alpha method
+            Authors: George Stavroulakis
+            </summary>
+        </member>
+        <member name="F:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.timeStep">
+            <summary>
+            This class makes the appropriate arrangements for the solution of linear dynamic equations
+            according to implicit Generalized alpha method
+            Authors: George Stavroulakis
+            </summary>
+        </member>
+        <member name="F:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.currentStep">
+            <summary>
+            This class makes the appropriate arrangements for the solution of linear dynamic equations
+            according to implicit Generalized alpha method
+            Authors: George Stavroulakis
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.#ctor(MGroup.MSolve.Solution.AlgebraicModel.IAlgebraicModel,MGroup.MSolve.AnalysisWorkflow.Providers.INonLinearTransientAnalysisProvider,MGroup.MSolve.AnalysisWorkflow.IChildAnalyzer,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Creates an instance that uses a specific problem type and an appropriate child analyzer for the construction of the system of equations arising from the actual physical problem
+            </summary>
+            <param name="model">Instance of the model to be solved</param>
+            <param name="provider">Instance of the problem type to be solver</param>
+            <param name="childAnalyzer">Instance of the child analyzer that will handle the solution of the system of equations</param>
+            <param name="timeStep">Instance of the time step of the method that will be initialized</param>
+            <param name="totalTime">Instance of the total time of the method that will be initialized</param>
+            <param name="alpha">Instance of parameter "alpha" of the method that will be initialized</param>
+            <param name="delta">Instance of parameter "delta" of the method that will be initialized</param>
+            <param name="currentStep">Starts the analysis from step equal to this parameter</param>
+            <param name="calculateInitialDerivativeVectors">Set to false to skip initial condition calculation based on initial values (default is true)</param>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.BuildMatrices">
+            <summary>
+            Makes the proper solver-specific initializations before the solution of the linear system of equations. This method MUST be called before the actual solution of the aforementioned system
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.GetOtherRhsComponents(MGroup.MSolve.Solution.LinearSystem.IGlobalVector)">
+            <summary>
+            Calculates equivalent right-hand side for first- and second-order time derivatives for use in non-linear solvers.
+            Returns zero vector if transient analysis phase is TransientAnalysisPhase.InitialConditionEvaluation.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Initialize(System.Boolean)">
+            <summary>
+            Initializes the models, the solvers, child analyzers, builds the matrices, solves for initial values and initializes right-hand-side vectors.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Solve">
+            <summary>
+            Perform the transient analysis by employing the assigned child analyzer for every timestep.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.CalculateRhsImplicit">
+            <summary>
+            Calculates the right-hand-side of the implicit dyanmic method. This will be used for the solution of the linear dynamic system.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.CalculateCurrentHigherOrderSolutionDerivatives(MGroup.MSolve.Solution.LinearSystem.IGlobalVector)">
+            <summary>
+            Essentialy it is going to be used for u_dot_(n+1) calculation
+            </summary>
+            <param name="currentSolution"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.MGroup#MSolve#AnalysisWorkflow#IStepwiseAnalyzer#Solve">
+            <summary>
+            Solves the linear system of equations of the current timestep
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Builder.SetNewmarkParameters(System.Double,System.Double,System.Boolean)">
+             <summary>
+            
+             </summary>
+             <param name="beta">
+             Used in the intepolation between the accelerations of the previous and current time step, in order to obtain the
+             current displacements. Also called alpha by Bathe.
+             </param>
+             <param name="gamma">
+             Used in the intepolation between the accelerations of the previous and current time step, in order to obtain the
+             current velocities. Also called delta by Bathe.
+             </param>
+             <param name="allowConditionallyStable">
+             If set to true, the user must make sure that the time step chosen is lower than the critical step size
+             corresponding to these particular <paramref name="beta"/>, <paramref name="gamma"/> parameters.
+             </param>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Builder.SetNewmarkParametersForCentralDifferences">
+            <summary>
+            Central diffences: gamma = 1/2, beta = 0. Newmark results in central diffences, a conditionally stable explicit
+            method. To ensure stability, the time step must be &lt;= the critical step size = 2 / w,  where w is the maximum
+            natural radian frequency. It would be more efficient to use an explicit dynamic analyzer.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Builder.SetNewmarkParametersForConstantAcceleration">
+            <summary>
+            Constant acceleration (also called average acceleration or trapezoid rule): gamma = 1/2, beta = 1/4.
+            This is the most common scheme and is unconditionally stable. In this analyzer, it is used as the default.
+            </summary>
+        </member>
+        <member name="M:MGroup.NumericalAnalyzers.Dynamic.GeneralizedAlphaDynamicAnalyzerV3NLdampin.Builder.SetNewmarkParametersForLinearAcceleration">
+            <summary>
+            Linear acceleration: gamma = 1/2, beta = 1/6. This is more accurate than the default constant acceleration,
+            but it conditionally stable. To ensure stability, the time step must be &lt;= the critical step size = 3.464 / w
+            = 0.551 * T, where w is the maximum natural radian frequency and T is the minimum natural period.
+            </summary>
+        </member>
     </members>
 </doc>
