@@ -1,0 +1,30 @@
+<MSolve4Korali version="1.0">
+  <Paths>
+    <OutputDir>./</OutputDir>
+  </Paths>
+  <Mesh>
+    <MeshFile>/n/home13/slitvinov/.local/share/gmsh1752_reexported.mphtxt</MeshFile>
+    <InitialConditionsFile>/n/home13/slitvinov/.local/share/tICsgmsh1752.csv</InitialConditionsFile>
+  </Mesh>
+  <Physics type="TumorGrowthFull" isCSparse="false" />
+  <Output><TumorVolume/></Output>
+  <Parameters>
+    <location>7.0099999999999998e+00</location>
+    <location_2>1.0010000000000000e+01</location_2>
+    <location_3>1.3010000000000000e+01</location_3>
+    <includeImmuno>true</includeImmuno>
+    <useSingleImmunoTherapy>false</useSingleImmunoTherapy>
+    <keepLogs>true</keepLogs>
+    <miTumor>3.4077605087474211e+01</miTumor>
+    <k_th_tumor>4.7961705686801490e-10</k_th_tumor>
+    <pv>3.5830980112202266e+00</pv>
+    <Sv>7.7357350545861173e+03</Sv>
+    <k1>2.7626814390549427e-06</k1>
+    <Lp>2.4520470354507217e-07</Lp>
+    <sf>1.3600940030263928e-01</sf>
+    <Per>1.9439100671910932e-08</Per>
+    <K_T>4.9675446011269870e-05</K_T>
+    <k_on>0.0004501830166852168</k_on>
+    <kd>9.1271767885596579e+04</kd>
+  </Parameters>
+</MSolve4Korali>
