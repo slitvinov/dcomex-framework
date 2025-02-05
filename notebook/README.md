@@ -10,7 +10,7 @@ jupytext --sync korali.ipynb korali.bin.ipynb
 
 Unpack
 ```
-tar zxf 3.tar.gz
+tar zxf 1.tar.gz
 ```
 
 Collage
