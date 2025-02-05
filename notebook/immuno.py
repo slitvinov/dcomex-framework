@@ -18,23 +18,20 @@ def volume(D):
 
 
 def experiment():
-    E = utils.experiment("data.xlsx")
+    E = utils.experiment("data.new.xlsx")
     for (typ, name), (time, volume) in E.items():
-        if not re.match("^control", name) and typ == "4T1":
-            time0 = utils.tstart[typ]
+        if re.match("control_[0123]", name) and typ == "4T1":
+            volume0 = volume[0]
             color = utils.color[typ]
-            try:
-                i = time.index(time0)
-                volume0 = volume[i]
-            except ValueError:
-                volume0, = np.interp([time0], time, volume)
-            plt.plot(np.subtract(time, time0),
-                     np.divide(volume, volume0),
+            plt.plot(time, np.divide(volume, volume0),
                      color + 'o-',
                      alpha=0.5)
 
 
 D = sorted(utils.read11("."), key=key)
+if D == []:
+    sys.stderr.write("immuno.py: error: no data, run `tar zxf 1.tar.gz`\n")
+    sys.exit(1)
 mvolume = (volume(d) for d in D)
 *rest, volume_max = statistics.quantiles(mvolume, n=200)
 Status = collections.Counter()

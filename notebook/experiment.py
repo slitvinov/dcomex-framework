@@ -24,23 +24,15 @@ if openpyxl is None:
     raise ModuleNotFoundError(
         "utils.experiment needs `openpyxl' python package")
 w = openpyxl.load_workbook(path, data_only=True)
-
-def get():
-    D = ((t.value, s[t.row][c.column - 1].value) for t in Time)
-    D = ((time, volume) for time, volume in D if volume is not None)
-    return zip(*D)
-
 D = {}
-Where = "A", "B", "C", "D", "E", "F", "G", "H"
-
+Where = "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"
 for s in w:
-    print(s.title)
     Time = [ ]
-    Row = [ ]
     it = iter(s["D"] if s.title == "4T1" else s["C"])
     for v in it:
         if v.value == 0:
             Time = [ 0 ]
+            Row = [v.row]
             break
     for v in it:
         if v.value == None:
@@ -53,23 +45,10 @@ for s in w:
             break
     else:
         assert 0
-
     for i in range(4):
         volume = [ ]
         x = next(where)
         for row in Row:
-            volume.append(s[x][row].value)
-        print(Time, volume)
-    continue
-    exit(0)
-    for c in s[row - 1][2:]:
-        if c.value is not None:
-            name = c.value.lower()
-            if re.match("^control", name):
-                time, volume = get()
-                D[s.title, name] = time, volume
-            elif re.match("^apdl", name):
-                time, volume = get()
-                D[s.title, name] = time, volume
-    exit(0)
-# print(D)
+            volume.append(s[x][row - 1].value)
+        D[s.title, "control_%d" % i] = Time, volume
+print(D)
