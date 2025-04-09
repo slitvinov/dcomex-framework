@@ -32,22 +32,15 @@ rnd = random.Random(12345)
 for i in range(hi):
     with io.StringIO() as xml:
         xml.write("""\
-<MSolve4Korali
-    version="1.0">
+<MSolve4Korali version="1.0">
   <Paths>
     <OutputDir>./</OutputDir>
   </Paths>
   <Mesh>
-    <MeshFile>
-      %s
-    </MeshFile>
-    <InitialConditionsFile>
-      %s
-    </InitialConditionsFile>
+    <MeshFile>%s</MeshFile>
+    <InitialConditionsFile>%s</InitialConditionsFile>
   </Mesh>
-  <Physics
-      type="TumorGrowthFull"
-      isCSparse="false"/>
+  <Physics type="TumorGrowthFull" isCSparse="false"/>
   <Output><TumorVolume/></Output>
   <Parameters>
 """ % (os.path.join(data_dir, mph), os.path.join(data_dir, csv)))
