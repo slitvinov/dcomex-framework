@@ -1,10 +1,11 @@
 import random
 import os
+import io
+import sys
 
 mph = "gmsh1752_reexported.mphtxt"
 csv = "tICsgmsh1752.csv"
 data_dir = os.path.expanduser(os.path.join("~", ".local", "share"))
-
 par = (
     ("includeImmuno", "fix", "true"),
     ("k1", "uniform", 1.1574e-6, 3.9884e-06),
@@ -24,13 +25,13 @@ par = (
     ("Sv", "uniform", 5000, 20000),
     ("useSingleImmunoTherapy", "fix", "false"),
 )
-random.seed(12345)
-for i in range(1024):
-    dir = "%08d" % i
-    os.makedirs(dir, exist_ok=True)
-    print(os.path.join(dir, "MSolveInput.xml"))
-    with open(os.path.join(dir, "MSolveInput.xml"), "w") as f:
-        f.write("""\
+lo = int(sys.argv[1])
+hi = int(sys.argv[2])
+
+rnd = random.Random(12345)
+for i in range(hi):
+    with io.StringIO() as xml:
+        xml.write("""\
 <MSolve4Korali
     version="1.0">
   <Paths>
@@ -53,21 +54,28 @@ for i in range(1024):
         for name, type, a, *rest in par:
             if type == "uniform":
                 b, = rest
-                f.write("""\
+                xml.write("""\
     <%s>%.16e</%s>
-""" % (name, random.uniform(a, b), name))
+""" % (name, rnd.uniform(a, b), name))
             elif type == "fix":
                 if isinstance(a, str):
-                    f.write("""\
+                    xml.write("""\
     <%s>%s</%s>
 """ % (name, a, name))
             elif type == "choice":
-                f.write("""\
+                xml.write("""\
     <%s>%s</%s>
-""" % (name, random.choice(a), name))
+""" % (name, rnd.choice(a), name))
             else:
                 assert False
-        f.write("""\
+        xml.write("""\
   </Parameters>
 </MSolve4Korali>
 """)
+        xml = xml.getvalue()
+    if i >= lo:
+        dir = "%08d" % i
+        os.makedirs(dir, exist_ok=True)
+        print(os.path.join(dir, "MSolveInput.xml"))
+        with open(os.path.join(dir, "MSolveInput.xml"), "w") as f:
+            f.write(xml)
