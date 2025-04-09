@@ -2,7 +2,7 @@ for d in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
 do if test ! -f $d/status
    then echo $d
    fi
-done | xargs --process-slot-var I -P `nproc` -n 1 sh -xuc \
+done | xargs --process-slot-var I -P `nproc` -n 1 exec sh -xuc \
 	     '
 trap "exit 1" 1 2 15
 cd "$0" &&
