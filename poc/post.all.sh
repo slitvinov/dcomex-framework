@@ -1,6 +1,7 @@
-: ${zip=B.zip}
-rm $zip
+set -eu
 
+: ${zip=B.zip}
+rm -f $zip
 m=0
 for d in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
 do if test -f ${d}status
@@ -8,26 +9,28 @@ do if test -f ${d}status
 	zip -qr9 "$zip" \
 	    ${d}* \
 	    --exclude \
-	    cox_msolve_1.txt \
-	    cox_msolve_2.txt \
-	    cox_msolve_3.txt \
-	    cox_msolve_4.txt \
-	    cox_msolve_5.txt \
-	    APC_mslv_1.txt \
-	    APC_mslv_2.txt \
-	    APC_mslv_3.txt \
-	    APC_mslv_4.txt \
-	    APC_mslv_5.txt \
-	    c_mslv_1.txt \
-	    c_mslv_2.txt \
-	    c_mslv_3.txt \
-	    c_mslv_4.txt \
-	    c_mslv_5.txt \
-	    TE_mslv_1.txt \
-	    TE_mslv_2.txt \
-	    TE_mslv_3.txt \
-	    TE_mslv_4.txt \
-	    TE_mslv_5.txt || break
+	    ${d}APC_mslv_1.txt \
+	    ${d}APC_mslv_2.txt \
+	    ${d}APC_mslv_3.txt \
+	    ${d}APC_mslv_4.txt \
+	    ${d}APC_mslv_5.txt \
+	    ${d}c_mslv_1.txt \
+	    ${d}c_mslv_2.txt \
+	    ${d}c_mslv_3.txt \
+	    ${d}c_mslv_4.txt \
+	    ${d}c_mslv_5.txt \
+	    ${d}cox_msolve_1.txt \
+	    ${d}cox_msolve_2.txt \
+	    ${d}cox_msolve_3.txt \
+	    ${d}cox_msolve_4.txt \
+	    ${d}cox_msolve_5.txt \
+	    ${d}TE_mslv_1.txt \
+	    ${d}TE_mslv_2.txt \
+	    ${d}TE_mslv_3.txt \
+	    ${d}TE_mslv_4.txt \
+	    ${d}TE_mslv_5.txt \
+
+	    echo $m >&2
    fi
 done
 echo $m "$zip"
