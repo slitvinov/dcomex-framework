@@ -1,5 +1,7 @@
 for d in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/
-do echo $d
+do if test ! -f $d/status
+   then echo $d
+   fi
 done | xargs --process-slot-var I -P `nproc` -n 1 sh -xuc \
 '
 cd "$0" &&
