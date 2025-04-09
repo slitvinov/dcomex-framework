@@ -31,15 +31,22 @@ for i in range(1024):
     print(os.path.join(dir, "MSolveInput.xml"))
     with open(os.path.join(dir, "MSolveInput.xml"), "w") as f:
         f.write("""\
-<MSolve4Korali version="1.0">
+<MSolve4Korali
+    version="1.0">
   <Paths>
     <OutputDir>./</OutputDir>
   </Paths>
   <Mesh>
-    <MeshFile>%s</MeshFile>
-    <InitialConditionsFile>%s</InitialConditionsFile>
+    <MeshFile>
+      %s
+    </MeshFile>
+    <InitialConditionsFile>
+      %s
+    </InitialConditionsFile>
   </Mesh>
-  <Physics type="TumorGrowthFull" isCSparse="false" />
+  <Physics
+      type="TumorGrowthFull"
+      isCSparse="false"/>
   <Output><TumorVolume/></Output>
   <Parameters>
 """ % (os.path.join(data_dir, mph), os.path.join(data_dir, csv)))
