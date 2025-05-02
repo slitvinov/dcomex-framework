@@ -13,6 +13,12 @@ Unpack
 tar zxf 1.tar.gz
 ```
 
+or
+
+```
+tar zxf 4.tar.gz
+```
+
 Collage
 ```
 python immuno.py
