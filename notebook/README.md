@@ -16,7 +16,7 @@ tar zxf 1.tar.gz
 or
 
 ```
-tar zxf 4.tar.gz
+tar zxf 4a.tar.gz
 ```
 
 Collage

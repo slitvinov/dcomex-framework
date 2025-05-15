@@ -56,11 +56,11 @@ def experiment(path):
     D = {}
     Where = "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"
     for s in w:
-        Time = [ ]
+        Time = []
         it = iter(s["D"] if s.title == "4T1" else s["C"])
         for v in it:
             if v.value == 0:
-                Time = [ 0 ]
+                Time = [0]
                 Row = [v.row]
                 break
         for v in it:
@@ -75,7 +75,7 @@ def experiment(path):
         else:
             assert 0
         for i in range(4):
-            volume = [ ]
+            volume = []
             x = next(where)
             for row in Row:
                 volume.append(s[x][row - 1].value)
