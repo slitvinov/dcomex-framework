@@ -43,7 +43,7 @@ for params, time, volume, status, path in D:
     color = "k" if status == 0 else "b"
     plt.plot(time, volume, color, alpha=0.5)
     if params["includeImmuno"]:
-        location = params["location"]
+        location = params["location1"]
         index = np.searchsorted(time, location)
         if index < len(volume):
             plt.plot([location], [volume[index]], "k")
@@ -54,7 +54,7 @@ for params, time, volume, status, path in D:
         plt.yscale("log")
         plt.xlabel("time (days)")
         plt.ylabel("relative tumor volume (log scale)")
-        experiment()
+        # experiment()
         plt.axis([0, None, 1, volume_max])
         plt.tight_layout()
         plt.savefig(path)
