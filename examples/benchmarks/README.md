@@ -5,13 +5,12 @@ DComEx framework powered by Korali on the Piz Daint
 supercomputer. This benchmark problem isBayesian inference of kinetic
 parameters in a tumor growth model. The simulation aimed to estimate
 the growth rate parameter ($k_1$) and shear modulus parameter ($\mu$)
-based on a likelihood function,
-$\mathcal{N}(V_{\text{mosolve}} - V_0,\,  \sigma = 1/2)$,
-where $\mathcal{N}$ represents the normal distribution
-and $\sigma$ is the standard deviation. We employed the TMCMC
-algorithm with default settings in Korali. The simulation utilized the
-MSolve-Bio application to solve a three-dimensional tumor growth
-model.
+based on a likelihood function, $\mathcal{N}(V_{\text{mosolve}} -
+V_0\, \sigma = 1/2)$, where $\mathcal{N}$ represents the normal
+distribution and $\sigma$ is the standard deviation. We employed the
+TMCMC algorithm with default settings in Korali. The simulation
+utilized the MSolve-Bio application to solve a three-dimensional tumor
+growth model.
 
 ## One node scaling efficency
 
@@ -39,10 +38,10 @@ do d=`echo $n | awk '{print 24 * $n}'`
 ## Multi node scaling efficency
 
 
-To evaluate multi-node scaling efficiency, we set '--cpus-per-task 2'
+To evaluate multi-node scaling efficiency, we set `--cpus-per-task 2`
 flag to assign each logical rank to a physical processor core. For the
 weak scaling analysis, we allocated one rank for the controller and
-used 'n' workers. The following code snippet demonstrates the process:
+used `n` workers. The following code snippet demonstrates the process:
 
 
 ```
