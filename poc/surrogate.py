@@ -1,8 +1,6 @@
 from functools import partial
-from jax import config
 from jax import grad, vmap, jit
 from jax.example_libraries import optimizers
-from jax.experimental.ode import odeint
 from jax.nn import relu
 from torch.utils import data
 from tqdm import trange
